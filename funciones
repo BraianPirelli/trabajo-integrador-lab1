@@ -1,0 +1,135 @@
+#include <iostream>
+#include <locale>
+#include <stdlib.h>
+#include <time.h>
+#include "funciones.h"
+
+
+using namespace std;
+
+void inicioPartida(int &maximaPuntuacion, string &nombre);
+void estadisticas(int maximaPuntuacion, string nombre);
+void creditos();
+void tirada_de_dados(string nombre);
+
+
+/** pvp ----------------------------------------------------------------------------------------------------------------- **/
+
+
+void inicioPartida(int &maxPuntuacion, string &nombre){
+    cout << "\tELIGIO P V P" << endl;
+    cout << "---------------------------------------------------------------------------------------" << endl;
+    cout << endl;
+    cout << "ingrese su nombre" << endl;
+    cin >> nombre;
+    cout << endl;
+    cout << nombre << " SACO EL DADO" << endl;
+
+    tirada_de_dados(nombre);
+
+}
+
+
+
+/** estadisticas----------------------------------------------------------------------------------------------------------------- **/
+void estadisticas(int maxPuntuacion, string nombre) {
+    cout << "eligio estadisticas" << endl;
+    cout << "\tmejor puntuacion: " << maxPuntuacion << " - " << nombre << endl;
+
+    cout << "---------------------------------------------------------------------------------------" << endl;
+}
+
+
+
+
+
+
+/** creditos ----------------------------------------------------------------------------------------------------------------- **/
+void creditos() {
+    cout << "eligio creditos" << endl;
+    cout << "---------------------------------------------------------------------------------------" << endl;
+}
+
+
+
+
+
+/** tirada de dados ----------------------------------------------------------------------------------------------------------------- **/
+void tirada_de_dados(string nombre){
+    srand(time(NULL));
+
+    int dado = 1 + rand()%(6);
+
+    cout << "EL JUGADOR " << nombre << " TIRO EL DADO" << endl;
+    cout << system("pause");
+    cout << system("cls");
+    cout << "SACO: " << endl;
+    cout << endl;
+
+    switch (dado){
+    case 1:
+        cout << "\t+-----------+" << endl;
+        cout << "\t|           |" << endl;
+        cout << "\t|           |" << endl;
+        cout << "\t|     x     |" << endl;
+        cout << "\t|           |" << endl;
+        cout << "\t|           |" << endl;
+        cout << "\t+-----------+" << endl;
+        break;
+
+    case 2:
+        cout << "\t+-----------+" << endl;
+        cout << "\t|  x        |" << endl;
+        cout << "\t|           |" << endl;
+        cout << "\t|           |" << endl;
+        cout << "\t|           |" << endl;
+        cout << "\t|        x  |" << endl;
+        cout << "\t+-----------+" << endl;
+        break;
+
+    case 3:
+        cout << "\t+-----------+" << endl;
+        cout << "\t| x         |" << endl;
+        cout << "\t|           |" << endl;
+        cout << "\t|     x     |" << endl;
+        cout << "\t|           |" << endl;
+        cout << "\t|          x|" << endl;
+        cout << "\t+-----------+" << endl;
+        break;
+
+    case 4:
+        cout << "\t+-----------+" << endl;
+        cout << "\t|  x     x  |" << endl;
+        cout << "\t|           |" << endl;
+        cout << "\t|           |" << endl;
+        cout << "\t|           |" << endl;
+        cout << "\t|  x     x  |" << endl;
+        cout << "\t+-----------+" << endl;
+        break;
+
+    case 5:
+        cout << "\t+-----------+" << endl;
+        cout << "\t|  x     x  |" << endl;
+        cout << "\t|           |" << endl;
+        cout << "\t|     x     |" << endl;
+        cout << "\t|           |" << endl;
+        cout << "\t|  x     x  |" << endl;
+        cout << "\t+-----------+" << endl;
+        break;
+
+    case 6:
+        cout << "\t+-----------+" << endl;
+        cout << "\t|  x     x  |" << endl;
+        cout << "\t|           |" << endl;
+        cout << "\t|  x     x  |" << endl;
+        cout << "\t|           |" << endl;
+        cout << "\t|  x     x  |" << endl;
+        cout << "\t+-----------+" << endl;
+        break;
+
+    }
+
+
+    cout << system("pause");
+    cout << system("cls");
+}
