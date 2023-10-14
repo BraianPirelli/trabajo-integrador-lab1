@@ -1,62 +1,77 @@
+/*
+
+	prueba de escritorio del menu principal para proyecto
+
+*/
 #include <iostream>
-#include <cstdlib>
+#include <stdlib.h>
+#include <time.h>
+#include "funciones.h"
+
 using namespace std;
-int main (){
-int opcion;
-char nombre1[15], nombre2[15];
-cout << " ---------------- A JUGAR ---------------- " << endl<<endl;
-cout << " ---------------> CLUTCH <---------------- " << endl<<endl;
+
+void inicioPartida(int &maximaPuntuacion, string &nombre);
+void estadisticas(int maximaPuntuacion, string nombre);
+void creditos();
+void tirada_de_dados(string nombre, int &maximaPuntuacion);
 
 
-while (1==1){
-    cout << " JUGAR [1] ESTADISTICA [2] CREDITOS [3] SALIR [0] "<<endl << endl;
-    cin >> opcion;
-    switch (opcion)
-    {
-    case 1:
-    cout << " ELIGIO LA OPCION JUGAR "<<endl << endl;
+int main() {
 
-cout << "-----------------> INGRESE NOMBRE DE JUGADOR UNO <------------------------" <<endl;
-cin >> nombre1;
-cout << "------------------------------------------------------------------"-------- << endl;
-cout << "-----------------------> HOLA " << nombre1 <<" <-------------------------- "<< endl;
-cout << "--------------------------------------------------------------------------" << endl;
-cout << "---------------> INGRESE NOMBRE DE JUGADOR DOS <---------------" <<endl;
-cin >> nombre2;
-cout << "--------------------------------------------------------------------------" << endl;
-cout << "------------------------> HOLA " << nombre2 <<" <--------------------------"<< endl;
-cout << "--------------------------------------------------------------------------" << endl;
-cout << "---------> VAMOS A JUGAR CLUTCH " << nombre1 << " Y " << nombre2 << " <----"<< endl;
-    // llamar la funcion del juego
-    // crear una funcion por cada numero de dado
-    break;
-    case 2:
-    cout << " ELIGIO LA OPCION ESTADISTICAS "<<endl << endl;
-    // llamar la funcion de estadistica
-    break;
-    case 3:
-    cout << " ELIGIO LA OPCION CREDITOS "<<endl << endl;
-    // llamar a la funcion creditos
-    break;
-    case 0:
-    cout << " SEGURO QUE QUIERE SALIR ...?? SI o NO "<<endl << endl;
-    cout << " 1-SI "<<endl << endl;
-    cout << " 2-NO "<<endl << endl;
-    int a = 0;
-    int b = 0;
-        cin >> b;
-        if (b == 1){
-            return 0;
+    int eleccion, maximaPuntuacion = 0;
+    char salir = 'N';
+    string nombre;
+
+    while(salir == 'N' || salir == 'n'){
+
+        cout << " " << endl;
+        cout << "\t+------MENU PRINCIPAL------+" << endl;
+        cout << "\t|   1    |    P v P        |" << endl;
+        cout << "\t|   2    |    ESTADISTICAS |" << endl;
+        cout << "\t|   3    |    CREDITOS     |" << endl;
+        cout << "\t+--------------------------+" << endl;
+        cout << "\t|   0    |    SALIR        |" << endl;
+        cout << "\t+--------------------------+" << endl;
+        cin >> eleccion;
+        cout << system("pause");
+        cout << system("cls");
+
+        if (eleccion != 0){
+            while (eleccion < 0 || eleccion > 3){
+                cout << "ERROR, SELECCION INVALIDA" << endl;
+                cin >> eleccion;
+                cout << system("cls");
+            }
+
+            switch(eleccion){
+                case 1:
+                    inicioPartida(maximaPuntuacion, nombre);
+                break;
+
+                case 2:
+                    estadisticas(maximaPuntuacion, nombre);
+                break;
+
+                case 3:
+                    creditos();
+                break;
+            }
         }
-       else if
-        {
-            return main ();
-    }
-    break;
-        return main ();
-        break;
- }
-}
 
-return 0;
+        if (eleccion == 0) {
+
+            cout << "DESEA SALIR DE ESTE HERMOSO MENU?" << endl;
+            cout << "\tS = SI \n\tN = NO" << endl;
+            cin >> salir;
+
+            while(salir != 'S' && salir != 's' && salir != 'N' && salir != 'n'){
+                cout << "ERROR, SELECCION INVALIDA" << endl;
+                cin >> salir;
+            }
+            cout << system("pause");
+            cout << system("cls");
+        }
+    }
+
+    return 0;
 }
