@@ -48,12 +48,11 @@ cout << "---------------> VAMOS A JUGAR CLUTCH " << nombre1 << " Y " << nombre2 
         if (b == 1){
             return 0;
         }
-       // else
+       else if
         {
             return main ();
     }
     break;
-    //default:
         return main ();
         break;
  }
