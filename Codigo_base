@@ -1,0 +1,63 @@
+#include <iostream>
+#include <cstdlib>
+using namespace std;
+int main (){
+int opcion;
+char nombre1[15], nombre2[15];
+cout << " ---------------- A JUGAR ---------------- " << endl<<endl;
+cout << " ---------------> CLUTCH <---------------- " << endl<<endl;
+
+
+while (1==1){
+    cout << " JUGAR [1] ESTADISTICA [2] CREDITOS [3] SALIR [0] "<<endl << endl;
+    cin >> opcion;
+    switch (opcion)
+    {
+    case 1:
+    cout << " ELIGIO LA OPCION JUGAR "<<endl << endl;
+
+cout << "---------------> INGRESE NOMBRE DE JUGADOR UNO <---------------" <<endl;
+cin >> nombre1;
+cout << "----------------------------------------------------------------" << endl <<endl;
+cout << "---------------> HOLA " << nombre1 <<" <--------------- "<< endl << endl;
+cout << "----------------------------------------------------------------" << endl <<endl;
+cout << "---------------> INGRESE NOMBRE DE JUGADOR DOS <---------------" <<endl;
+cin >> nombre2;
+cout << "----------------------------------------------------------------" << endl <<endl;
+cout << "---------------> HOLA " << nombre2 <<" <--------------- "<<endl << endl;
+cout << "----------------------------------------------------------------" << endl <<endl;
+cout << "---------------> VAMOS A JUGAR CLUTCH " << nombre1 << " Y " << nombre2 << " <---------------" <<endl<<endl;
+    // llamar la funcion del juego
+    // crear una funcion por cada numero de dado
+    break;
+    case 2:
+    cout << " ELIGIO LA OPCION ESTADISTICAS "<<endl << endl;
+    // llamar la funcion de estadistica
+    break;
+    case 3:
+    cout << " ELIGIO LA OPCION CREDITOS "<<endl << endl;
+    // llamar a la funcion creditos
+    break;
+    case 0:
+    cout << " SEGURO QUE QUIERE SALIR ...?? SI o NO "<<endl << endl;
+    cout << " 1-SI "<<endl << endl;
+    cout << " 2-NO "<<endl << endl;
+    int a = 0;
+    int b = 0;
+        cin >> b;
+        if (b == 1){
+            return 0;
+        }
+       // else
+        {
+            return main ();
+    }
+    break;
+    //default:
+        return main ();
+        break;
+ }
+}
+
+return 0;
+}
