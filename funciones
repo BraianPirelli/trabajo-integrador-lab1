@@ -136,43 +136,18 @@ void tirada_de_dados(string nombre){
 
 
 /** carga de matrices -----------------------------------------------------------------------------------------------------------**/
-void preparacion_barajas(string baraja_muestra[][4], bool baraja_disponibles[][4]){
+
+void preparacion_barajas(string baraja_cartas_muestra[][4], bool baraja_cartas_disponibles[][4]) {
     const int TIPOS = 5;
     const int PALOS = 4;
 
+    const string nombresCartas[] = {"10", "J", "Q", "K", "A"};
+    const string nombresPalos[] = {"corazones", "picas", "diamantes", "trebol"};
 
-    baraja_muestra[0][0]= "10 corazones";
-    baraja_muestra[0][1]= "10 picas";
-    baraja_muestra[0][2]= "10 diamantes";
-    baraja_muestra[0][3]= "10 trebol";
-
-    baraja_muestra[1][0]= "J corazones";
-    baraja_muestra[1][1]= "J picas";
-    baraja_muestra[1][2]= "J diamantes";
-    baraja_muestra[1][3]= "J trebol";
-
-    baraja_muestra[2][0]= "Q corazones";
-    baraja_muestra[2][1]= "Q picas";
-    baraja_muestra[2][2]= "Q diamantes";
-    baraja_muestra[2][3]= "Q trebol";
-
-    baraja_muestra[3][0]= "K corazones";
-    baraja_muestra[3][1]= "K picas";
-    baraja_muestra[3][2]= "K diamantes";
-    baraja_muestra[3][3]= "K trebol";
-
-    baraja_muestra[4][0]= "A corazones";
-    baraja_muestra[4][1]= "A picas";
-    baraja_muestra[4][2]= "A diamantes";
-    baraja_muestra[4][3]= "A trebol";
-
-
-
-
-    for (int x = 0; x < TIPOS; x++){
-        for (int y = 0; y < PALOS; y++){
-            baraja_disponibles[x][y] = true;
+    for (int x = 0; x < TIPOS; x++) {
+        for (int y = 0; y < PALOS; y++) {
+            baraja_cartas_muestra[x][y] = nombresCartas[x] + " " + nombresPalos[y];
+            baraja_cartas_disponibles[x][y] = true;
         }
     }
-
 }
