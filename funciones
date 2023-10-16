@@ -4,43 +4,57 @@
 #include <time.h>
 #include "funciones.h"
 
-
 using namespace std;
 
-void inicioPartida(int &maximaPuntuacion, string &nombre);
-void estadisticas(int maximaPuntuacion, string nombre);
+void inicioPartida(int &maximaPuntuacion, string &jugador_1, string &jugador_2);
+void estadisticas(int maximaPuntuacion);
 void creditos();
 void tirada_de_dados(string nombre);
+const int TIPOS_CARTAS = 5, PALOS = 4;
+void preparacion_barajas(string baraja_cartas_muestra[TIPOS_CARTAS][PALOS], bool baraja_cartas_disponibles[TIPOS_CARTAS][PALOS]);
+
+
 
 
 /** pvp ----------------------------------------------------------------------------------------------------------------- **/
+void inicioPartida(int &maxPuntuacion, string &jugador_1, string &jugador_2){
 
-
-void inicioPartida(int &maxPuntuacion, string &nombre){
     cout << "\tELIGIO P V P" << endl;
     cout << "---------------------------------------------------------------------------------------" << endl;
+
+    // inicia el jugador 1 tirando los dados
     cout << endl;
     cout << "ingrese su nombre" << endl;
-    cin >> nombre;
+    cin >> jugador_1;
     cout << endl;
-    cout << nombre << " SACO EL DADO" << endl;
+    cout << jugador_1 << " SACO EL DADO" << endl;
 
-    tirada_de_dados(nombre);
+    tirada_de_dados(jugador_1);
+
+
+    // continua el jugador 2 tirando los dados en su turno
+    cout << endl;
+    cout << "ingrese su nombre" << endl;
+    cin >> jugador_2;
+    cout << endl;
+    cout << jugador_2 << " SACO EL DADO" << endl;
+
+    tirada_de_dados(jugador_2);
+
 
 }
 
 
 
-/** estadisticas----------------------------------------------------------------------------------------------------------------- **/
-void estadisticas(int maxPuntuacion, string nombre) {
+/** estadisticas ----------------------------------------------------------------------------------------------------------------- **/
+void estadisticas(int maxPuntuacion) {
+
+    // incompleto
     cout << "eligio estadisticas" << endl;
-    cout << "\tmejor puntuacion: " << maxPuntuacion << " - " << nombre << endl;
+    cout << "\tmejor puntuacion: " << maxPuntuacion << endl;
 
     cout << "---------------------------------------------------------------------------------------" << endl;
 }
-
-
-
 
 
 
@@ -49,8 +63,6 @@ void creditos() {
     cout << "eligio creditos" << endl;
     cout << "---------------------------------------------------------------------------------------" << endl;
 }
-
-
 
 
 
@@ -75,6 +87,12 @@ void tirada_de_dados(string nombre){
         cout << "\t|           |" << endl;
         cout << "\t|           |" << endl;
         cout << "\t+-----------+" << endl;
+
+        // aca se debe llamar a una funcion, en base al valor obtenido en dado, se lo pasa como parametro
+        // y la funcion se encarga de que debe hacer
+
+        cout << system("pause");
+        cout << system("cls");
         break;
 
     case 2:
@@ -85,6 +103,12 @@ void tirada_de_dados(string nombre){
         cout << "\t|           |" << endl;
         cout << "\t|        x  |" << endl;
         cout << "\t+-----------+" << endl;
+
+        // aca se debe llamar a una funcion, en base al valor obtenido en dado, se lo pasa como parametro
+        // y la funcion se encarga de que debe hacer
+
+        cout << system("pause");
+        cout << system("cls");
         break;
 
     case 3:
@@ -95,6 +119,12 @@ void tirada_de_dados(string nombre){
         cout << "\t|           |" << endl;
         cout << "\t|          x|" << endl;
         cout << "\t+-----------+" << endl;
+
+        // aca se debe llamar a una funcion, en base al valor obtenido en dado, se lo pasa como parametro
+        // y la funcion se encarga de que debe hacer
+
+        cout << system("pause");
+        cout << system("cls");
         break;
 
     case 4:
@@ -105,6 +135,12 @@ void tirada_de_dados(string nombre){
         cout << "\t|           |" << endl;
         cout << "\t|  x     x  |" << endl;
         cout << "\t+-----------+" << endl;
+
+        // aca se debe llamar a una funcion, en base al valor obtenido en dado, se lo pasa como parametro
+        // y la funcion se encarga de que debe hacer
+
+        cout << system("pause");
+        cout << system("cls");
         break;
 
     case 5:
@@ -115,6 +151,12 @@ void tirada_de_dados(string nombre){
         cout << "\t|           |" << endl;
         cout << "\t|  x     x  |" << endl;
         cout << "\t+-----------+" << endl;
+
+        // aca se debe llamar a una funcion, en base al valor obtenido en dado, se lo pasa como parametro
+        // y la funcion se encarga de que debe hacer
+
+        cout << system("pause");
+        cout << system("cls");
         break;
 
     case 6:
@@ -125,14 +167,20 @@ void tirada_de_dados(string nombre){
         cout << "\t|           |" << endl;
         cout << "\t|  x     x  |" << endl;
         cout << "\t+-----------+" << endl;
+
+        // aca se debe llamar a una funcion, en base al valor obtenido en dado, se lo pasa como parametro
+        // y la funcion se encarga de que debe hacer
+
+        cout << system("pause");
+        cout << system("cls");
         break;
 
     }
 
-
     cout << system("pause");
     cout << system("cls");
 }
+
 
 
 /** carga de matrices -----------------------------------------------------------------------------------------------------------**/
