@@ -18,28 +18,54 @@ void preparacion_barajas(string baraja_cartas_muestra[TIPOS_CARTAS][PALOS], bool
 
 /** pvp ----------------------------------------------------------------------------------------------------------------- **/
 void inicioPartida(int &maxPuntuacion, string &jugador_1, string &jugador_2){
+    
+    int ronda = 0;
+    bool finPartida = false;
+    char confirmar;
+    
+    while(finPartida == false;){
+        
+        cout << "\tCLUTCH" << endl;
+        cout << "---------------------------------------------------------------------------------------" << endl;
+        
+        if (ronda == 0){
+            do{
+                cout << "Antes de comenzar debe registrar sus nombres: " << endl;
+                
+                // inicia el jugador 1 tirando los dados
+                cout << endl;
+                cout << "nombre jugador 1: ";
+                cin >> jugador_1;
+                cout << endl;
 
-    cout << "\tELIGIO P V P" << endl;
-    cout << "---------------------------------------------------------------------------------------" << endl;
-
-    // inicia el jugador 1 tirando los dados
-    cout << endl;
-    cout << "ingrese su nombre" << endl;
-    cin >> jugador_1;
-    cout << endl;
-    cout << jugador_1 << " SACO EL DADO" << endl;
-
-    tirada_de_dados(jugador_1);
-
-
-    // continua el jugador 2 tirando los dados en su turno
-    cout << endl;
-    cout << "ingrese su nombre" << endl;
-    cin >> jugador_2;
-    cout << endl;
-    cout << jugador_2 << " SACO EL DADO" << endl;
-
-    tirada_de_dados(jugador_2);
+                // continua el jugador 2 tirando los dados en su turno
+                cout << endl;
+                cout << "nombre jugador 2: ";
+                cin >> jugador_2;
+                cout << endl;
+                
+                cout << "confirmar nombres" << endl;
+                cout << "S - si\nN - no" << endl;
+                cin >> confirmar;
+                while(confirmar != 'N' && confirmar != 'n' && confirmar != 'S' && confirmar != 's'){
+                    cout << "ERROR, INGRESE UNA CONFIRMACION VALIDA" << endl;
+                    cin >> confirmar;
+                }
+                
+            } while (confirmar == 'N' || confirmar == 'n');
+            
+            ronda++;
+            
+        } else {
+            // aca se debe agregar el inicio del juego
+            
+            
+        }
+        
+        
+        
+        // hacer una funcion que verifique si el "corral" de cada jugador esta ordenado o no
+    }
 
 
 }
