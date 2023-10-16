@@ -16,9 +16,7 @@ void estadisticas(int maximaPuntuacion);
 void creditos();
 void tirada_de_dados(string nombre);
 const int TIPOS_CARTAS = 5, PALOS = 4;
-void preparacion_barajas(string , bool );
-
-
+void preparacion_barajas(string baraja_muestra[][PALOS], bool baraja_disponibles[][PALOS]);
 
 int main() {
 
@@ -28,7 +26,6 @@ int main() {
     string baraja_cartas_muestra[TIPOS_CARTAS][PALOS]{};
     bool baraja_cartas_disponibles[TIPOS_CARTAS][PALOS]{};
 
-
     while(salir == 'N' || salir == 'n'){
 
         cout << " " << endl;
@@ -36,7 +33,6 @@ int main() {
         cout << "\t\t\tCLUTCH" << endl;
         cout << system("pause");
         cout << system("cls");
-
 
         cout << "\t+--------------------------+" << endl;
         cout << "\t|      MENU PRINCIPAL      |" << endl;
@@ -64,15 +60,15 @@ int main() {
             switch(eleccion){
                 case 1:
                     inicioPartida(maximaPuntuacion, jugador_1, jugador_2);
-                break;
+                    break;
 
                 case 2:
                     estadisticas(maximaPuntuacion);
-                break;
+                    break;
 
                 case 3:
                     creditos();
-                break;
+                    break;
             }
         }
 
@@ -93,3 +89,4 @@ int main() {
 
     return 0;
 }
+
