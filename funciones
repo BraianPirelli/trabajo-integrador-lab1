@@ -133,3 +133,28 @@ void tirada_de_dados(string nombre){
     cout << system("pause");
     cout << system("cls");
 }
+
+
+/** carga de matrices -----------------------------------------------------------------------------------------------------------**/
+
+void preparacion_barajas(string &baraja_muestra[][4], bool &baraja_disponibles[][4]){
+    const int TIPOS = 5, PALOS = 4;
+
+
+    baraja_muestra[][]{
+        {"10 corazones", "10 picas", "10 diamantes", "10 trebol"},
+        {"J corazones", "J picas", "J diamantes", "J trebol"},
+        {"Q corazones", "Q picas", "Q diamantes", "Q trebol"},
+        {"K corazones", "K picas", "K diamantes", "K trebol"},
+        {"A corazones", "A picas", "A diamantes", "A trebol"}
+    };
+
+
+    for (int x = 0; x < TIPOS; x++){
+        for (int y = 0; y < PALOS; y++){
+            baraja_disponibles[x][y] = true;
+        }
+    };
+
+}
+
