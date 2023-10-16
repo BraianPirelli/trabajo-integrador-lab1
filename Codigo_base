@@ -5,27 +5,43 @@
 */
 #include <iostream>
 #include <stdlib.h>
+#include <locale>
 #include <time.h>
 #include "funciones.h"
 
 using namespace std;
 
-void inicioPartida(int &maximaPuntuacion, string &nombre);
-void estadisticas(int maximaPuntuacion, string nombre);
+void inicioPartida(int &maximaPuntuacion, string &jugador_1, string &jugador_2);
+void estadisticas(int maximaPuntuacion);
 void creditos();
-void tirada_de_dados(string nombre, int &maximaPuntuacion);
+void tirada_de_dados(string nombre);
+const int TIPOS_CARTAS = 5, PALOS = 4;
+void preparacion_barajas(string , bool );
+
 
 
 int main() {
 
-    int eleccion, maximaPuntuacion = 0;
+    int eleccion, maximaPuntuacion;
     char salir = 'N';
-    string nombre;
+    string jugador_1, jugador_2;
+    string baraja_cartas_muestra[TIPOS_CARTAS][PALOS]{};
+    bool baraja_cartas_disponibles[TIPOS_CARTAS][PALOS]{};
+
 
     while(salir == 'N' || salir == 'n'){
 
         cout << " " << endl;
-        cout << "\t+------MENU PRINCIPAL------+" << endl;
+        cout << "BIENVENIDO A EL MARAVILLOSO MUNDO DE" << endl;
+        cout << "\t\t\tCLUTCH" << endl;
+        cout << system("pause");
+        cout << system("cls");
+
+
+        cout << "\t+--------------------------+" << endl;
+        cout << "\t|      MENU PRINCIPAL      |" << endl;
+        cout << "\t|       << CLUTCH >>       |" << endl;
+        cout << "\t+--------------------------+" << endl;
         cout << "\t|   1    |    P v P        |" << endl;
         cout << "\t|   2    |    ESTADISTICAS |" << endl;
         cout << "\t|   3    |    CREDITOS     |" << endl;
@@ -36,6 +52,8 @@ int main() {
         cout << system("pause");
         cout << system("cls");
 
+        preparacion_barajas(baraja_cartas_muestra, baraja_cartas_disponibles);
+
         if (eleccion != 0){
             while (eleccion < 0 || eleccion > 3){
                 cout << "ERROR, SELECCION INVALIDA" << endl;
@@ -45,11 +63,11 @@ int main() {
 
             switch(eleccion){
                 case 1:
-                    inicioPartida(maximaPuntuacion, nombre);
+                    inicioPartida(maximaPuntuacion, jugador_1, jugador_2);
                 break;
 
                 case 2:
-                    estadisticas(maximaPuntuacion, nombre);
+                    estadisticas(maximaPuntuacion);
                 break;
 
                 case 3:
