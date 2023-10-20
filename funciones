@@ -6,44 +6,54 @@
 
 using namespace std;
 
-void inicioPartida(int &maximaPuntuacion, string &jugador_1, string &jugador_2);
+const int TIPOS_CARTAS = 5, PALOS = 4, CARTAS_POR_MANO = 5;
+void inicioPartida(int &maximaPuntuacion, string &jugador_1, string &jugador_2, string corralJugador_1[], string corralJugador_2[], string baraja_cartas_muestra[TIPOS_CARTAS][PALOS], bool baraja_cartas_disponibles[TIPOS_CARTAS][PALOS]);
+
 void estadisticas(int maximaPuntuacion);
+
 void creditos();
+
 void tirada_de_dados(string nombre);
-const int TIPOS_CARTAS = 5, PALOS = 4;
+
 void preparacion_barajas(string baraja_cartas_muestra[TIPOS_CARTAS][PALOS], bool baraja_cartas_disponibles[TIPOS_CARTAS][PALOS]);
 
+void repatir_cartas(string baraja_cartas_muestra[TIPOS_CARTAS][PALOS], bool baraja_cartas_disponibles[TIPOS_CARTAS][PALOS], string []);
+
+string quien_inicia(string jugador1, string jugador2, string corralJugador_1[], string corralJugador_2[]);
 
 
 
 /** pvp ----------------------------------------------------------------------------------------------------------------- **/
-void inicioPartida(int &maxPuntuacion, string &jugador_1, string &jugador_2){
-    
+void inicioPartida(int &maximaPuntuacion, string &jugador_1, string &jugador_2, string corralJugador_1[], string corralJugador_2[], string baraja_cartas_muestra[TIPOS_CARTAS][PALOS], bool baraja_cartas_disponibles[TIPOS_CARTAS][PALOS]){
+
     int ronda = 0;
     bool finPartida = false;
     char confirmar;
-    
-    while(finPartida == false;){
-        
-        cout << "\tCLUTCH" << endl;
-        cout << "---------------------------------------------------------------------------------------" << endl;
-        
+    string turno_1;
+
+    while(finPartida == false){
+
+        // la "ronda 0" es una forma subjetiva de usar el contador,
+        // para que en primera instancia pida los nombres de los jugadores
         if (ronda == 0){
-            do{
+            do {
+                cout << "\tCLUTCH" << endl;
+                cout << "---------------------------------------------------------------------------------------" << endl;
+
                 cout << "Antes de comenzar debe registrar sus nombres: " << endl;
-                
-                // inicia el jugador 1 tirando los dados
+
+                // inicia el jugador 1 ingresando su nombre
                 cout << endl;
-                cout << "nombre jugador 1: ";
+                cout << "jugador 1, ingrese su nombre: ";
                 cin >> jugador_1;
                 cout << endl;
 
-                // continua el jugador 2 tirando los dados en su turno
+                // continua el jugador 2 ingresando su nombre
                 cout << endl;
-                cout << "nombre jugador 2: ";
+                cout << "jugador 2, ingrese su nombre: ";
                 cin >> jugador_2;
                 cout << endl;
-                
+
                 cout << "confirmar nombres" << endl;
                 cout << "S - si\nN - no" << endl;
                 cin >> confirmar;
@@ -51,20 +61,108 @@ void inicioPartida(int &maxPuntuacion, string &jugador_1, string &jugador_2){
                     cout << "ERROR, INGRESE UNA CONFIRMACION VALIDA" << endl;
                     cin >> confirmar;
                 }
-                
+
             } while (confirmar == 'N' || confirmar == 'n');
-            
+
+            cout << "---------------------------------------------------------------------------------------" << endl;
+
             ronda++;
-            
+
+            cout << system("cls");
+
+        // cuando el contador esta en 1, primera ronda, se reparten las cartas, por unica vez, y luego
+        // se desarrolla el juego en base a la logica de los dados
+        } else if (ronda == 1){
+            cout << "\tCLUTCH" << ronda << endl;
+            cout << "---------------------------------------------------------------------------------------" << endl;
+
+            cout << "RONDA #" << ronda << endl;
+            cout << jugador_1 << "  VS  " << jugador_2 << endl;
+            cout << endl << "SE REPARTEN LAS CARTAS PARA CADA JUGADOR!!" << endl;
+
+
+            // se asignan las cartas al primer jugador
+            repatir_cartas(baraja_cartas_muestra, baraja_cartas_disponibles, corralJugador_1);
+
+            cout << jugador_1 << ":" << endl;
+            for (int x = 0; x < 5; x++){
+                cout << "\t" << corralJugador_1[x] << " " << endl;
+            }
+
+
+            cout << " " << endl;
+
+
+            // se asignan las cartas al segundo jugador
+            repatir_cartas(baraja_cartas_muestra, baraja_cartas_disponibles, corralJugador_2);
+
+            cout << jugador_2 << ":" << endl;
+            for (int x = 0; x < 5; x++){
+                cout << "\t" << corralJugador_2[x] << " " << endl;
+            }
+
+            cout << "---------------------------------------------------------------------------------------" << endl;
+
+            turno_1 = quien_inicia(jugador_1, jugador_2, corralJugador_1, corralJugador_2);
+
+            ronda++;
+
+            cout << system("pause");
+            cout << system("cls");
+
         } else {
-            // aca se debe agregar el inicio del juego
-            
-            
+            cout << "\tCLUTCH" << ronda << endl;
+            cout << "---------------------------------------------------------------------------------------" << endl;
+
+            cout << "RONDA #" << (ronda) << endl;
+            cout << jugador_1 << "  VS  " << jugador_2 << endl;
+
+            if (turno_1 == jugador_1){
+                cout << "TURNO DE " << jugador_1 << endl;
+
+                cout << jugador_1 << ":" << endl;
+                for (int x = 0; x < 5; x++){
+                    cout << "\t" << corralJugador_1[x] << " " << endl;
+                }
+
+                cout << jugador_2 << ":" << endl;
+                for (int x = 0; x < 5; x++){
+                    cout << "\t" << corralJugador_2[x] << " " << endl;
+                }
+                // tiran dados
+
+            } else {
+                cout << "TURNO DE " << jugador_2 << endl;
+
+                cout << jugador_1 << ":" << endl;
+                for (int x = 0; x < 5; x++){
+                    cout << "\t" << corralJugador_1[x] << " " << endl;
+                }
+
+                cout << jugador_2 << ":" << endl;
+                for (int x = 0; x < 5; x++){
+                    cout << "\t" << corralJugador_2[x] << " " << endl;
+                }
+                // tiran dados
+
+            }
+
+            // aca debe agregarse el desarrollo del juego en base a ir tirando los dados
+
+
+            cout << "---------------------------------------------------------------------------------------" << endl;
+
+            ronda++;
         }
-        
-        
-        
+
+        // ESTO DEBE SACARSE, ES PARA QUE COMPILE EL PROGRAMA
+        if (ronda == 3){
+            finPartida = true;
+        }
+
+
         // hacer una funcion que verifique si el "corral" de cada jugador esta ordenado o no
+        // en base al resultado, finaliza la partida o no
     }
 
 
@@ -85,6 +183,7 @@ void estadisticas(int maxPuntuacion) {
 
 
 /** creditos ----------------------------------------------------------------------------------------------------------------- **/
+
 void creditos() {
     cout << "eligio creditos" << endl;
     cout << "---------------------------------------------------------------------------------------" << endl;
@@ -94,7 +193,6 @@ void creditos() {
 
 /** tirada de dados ----------------------------------------------------------------------------------------------------------------- **/
 void tirada_de_dados(string nombre){
-    srand(time(NULL));
 
     int dado = 1 + rand()%(6);
 
@@ -212,6 +310,7 @@ void tirada_de_dados(string nombre){
 /** carga de matrices -----------------------------------------------------------------------------------------------------------**/
 
 void preparacion_barajas(string baraja_cartas_muestra[][4], bool baraja_cartas_disponibles[][4]) {
+
     const int TIPOS = 5;
     const int PALOS = 4;
 
@@ -221,7 +320,153 @@ void preparacion_barajas(string baraja_cartas_muestra[][4], bool baraja_cartas_d
     for (int x = 0; x < TIPOS; x++) {
         for (int y = 0; y < PALOS; y++) {
             baraja_cartas_muestra[x][y] = nombresCartas[x] + " " + nombresPalos[y];
+
             baraja_cartas_disponibles[x][y] = true;
         }
+    }
+}
+
+
+
+/** reparticion de cartas ---------------------------------------------------------------------------------------------------------**/
+
+void repatir_cartas(string baraja_cartas_muestra[][4], bool baraja_cartas_disponibles[][4], string corral[]){
+
+    srand(time(NULL));
+
+    int manoDeCartas = 5;
+    int indiceCarta;
+    int indicePalo;
+
+    for (int x = 0; x < manoDeCartas; x++){
+        indiceCarta = rand()%(5); // CAMBIE LOS INDICES YA QUE DE LA FORMA QUE ESTABAN ESCRITOS
+        indicePalo = rand()%(4);  // ANTES, NO SE ANALIZABA EL "AS"
+
+        // pregunto si en la posicion del indice random "carta" y random "palo", esta disponible
+        if (baraja_cartas_disponibles[indiceCarta][indicePalo] == true){
+
+            // si esta, se asigna al "corral" el valor que tiene almacenado la matriz "muestra",
+            // y la matriz "disponible" se pone en false
+            corral[x] = baraja_cartas_muestra[indiceCarta][indicePalo];
+            baraja_cartas_disponibles[indiceCarta][indicePalo] = false;
+
+        } else {
+            // en caso de no estar disponible esa carta se generan dos indices nuevos hasta que si este disponible
+            while (baraja_cartas_disponibles[indiceCarta][indicePalo] == false){
+
+                indiceCarta = rand()%(5); // CAMBIE LOS INDICES PARA QUE SE PUEDA RECORRER DE FORMA MAS EFICAS
+                indicePalo = rand()%(4);  // LA MATRIZ
+
+            }
+            // una vez este disponible se asignan al "corral" y se asigna false a la matriz "disponible"
+            corral[x] = baraja_cartas_muestra[indiceCarta][indicePalo];
+            baraja_cartas_disponibles[indiceCarta][indicePalo] = false;
+        }
+
+        // el proceso debe repetirse 5 veces ya que el "corral" o mano de jugador se compone de 5 cartas :)
+    }
+}
+
+
+/** quien comienza la partida ---------------------------------------------------------------------------------------------------------**/
+
+string quien_inicia(string jugador1, string jugador2, string corralJugador_1[], string corralJugador_2[]){
+    int cantidad_j1 = 0, cantidad_j2 = 0;
+    for (int x = 0; x < CARTAS_POR_MANO; x++){
+        if (corralJugador_1[x] == "A corazones" || corralJugador_1[x] == "A picas" || corralJugador_1[x] == "A diamantes" || corralJugador_1[x] == "A trebol"){
+            cantidad_j1++;
+        }
+    }
+
+    for (int x = 0; x < CARTAS_POR_MANO; x++){
+        if (corralJugador_2[x] == "A corazones" || corralJugador_2[x] == "A picas" || corralJugador_2[x] == "A diamantes" || corralJugador_2[x] == "A trebol"){
+            cantidad_j1++;
+        }
+    }
+
+    if (cantidad_j1 == cantidad_j2){
+        cantidad_j1 = 0, cantidad_j2 = 0;
+        for (int x = 0; x < CARTAS_POR_MANO; x++){
+            if (corralJugador_1[x] == "K corazones" || corralJugador_1[x] == "K picas" || corralJugador_1[x] == "K diamantes" || corralJugador_1[x] == "K trebol"){
+                cantidad_j1++;
+            }
+        }
+
+        for (int x = 0; x < CARTAS_POR_MANO; x++){
+            if (corralJugador_2[x] == "K corazones" || corralJugador_2[x] == "K picas" || corralJugador_2[x] == "K diamantes" || corralJugador_2[x] == "K trebol"){
+                cantidad_j1++;
+            }
+        }
+
+
+        if (cantidad_j1 == cantidad_j2){
+            cantidad_j1 = 0, cantidad_j2 = 0;
+            for (int x = 0; x < CARTAS_POR_MANO; x++){
+                if (corralJugador_1[x] == "Q corazones" || corralJugador_1[x] == "Q picas" || corralJugador_1[x] == "Q diamantes" || corralJugador_1[x] == "Q trebol"){
+                    cantidad_j1++;
+                }
+            }
+
+            for (int x = 0; x < CARTAS_POR_MANO; x++){
+                if (corralJugador_2[x] == "Q corazones" || corralJugador_2[x] == "Q picas" || corralJugador_2[x] == "Q diamantes" || corralJugador_2[x] == "Q trebol"){
+                    cantidad_j1++;
+                }
+            }
+
+            if (cantidad_j1 == cantidad_j2){
+                cantidad_j1 = 0, cantidad_j2 = 0;
+                for (int x = 0; x < CARTAS_POR_MANO; x++){
+                    if (corralJugador_1[x] == "J corazones" || corralJugador_1[x] == "J picas" || corralJugador_1[x] == "J diamantes" || corralJugador_1[x] == "J trebol"){
+                        cantidad_j1++;
+                    }
+                }
+
+                for (int x = 0; x < CARTAS_POR_MANO; x++){
+                    if (corralJugador_2[x] == "J corazones" || corralJugador_2[x] == "J picas" || corralJugador_2[x] == "J diamantes" || corralJugador_2[x] == "J trebol"){
+                        cantidad_j1++;
+                    }
+                }
+
+                if (cantidad_j1 == cantidad_j2){
+                    cantidad_j1 = 0, cantidad_j2 = 0;
+                    for (int x = 0; x < CARTAS_POR_MANO; x++){
+                        if (corralJugador_1[x] == "10 corazones" || corralJugador_1[x] == "10 picas" || corralJugador_1[x] == "10 diamantes" || corralJugador_1[x] == "10 trebol"){
+                            cantidad_j1++;
+                        }
+                    }
+
+                    for (int x = 0; x < CARTAS_POR_MANO; x++){
+                        if (corralJugador_2[x] == "10 corazones" || corralJugador_2[x] == "10 picas" || corralJugador_2[x] == "10 diamantes" || corralJugador_2[x] == "10 trebol"){
+                            cantidad_j1++;
+                        }
+                    }
+
+                    if (cantidad_j1 > cantidad_j2){
+                        return jugador1;
+                    } else {
+                        return jugador2;
+                    }
+                } else if (cantidad_j1 > cantidad_j2){
+                    return jugador1;
+                } else {
+                    return jugador2;
+                }
+
+            } else if (cantidad_j1 > cantidad_j2){
+                return jugador1;
+            } else {
+                return jugador2;
+            }
+
+        } else if (cantidad_j1 > cantidad_j2){
+            return jugador1;
+        } else {
+            return jugador2;
+        }
+
+    } else if (cantidad_j1 > cantidad_j2){
+        return jugador1;
+    } else {
+        return jugador2;
     }
 }
