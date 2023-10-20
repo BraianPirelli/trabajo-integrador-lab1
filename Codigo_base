@@ -1,8 +1,3 @@
-/*
-
-	prueba de escritorio del menu principal para proyecto
-
-*/
 #include <iostream>
 #include <stdlib.h>
 #include <locale>
@@ -11,28 +6,43 @@
 
 using namespace std;
 
-void inicioPartida(int &maximaPuntuacion, string &jugador_1, string &jugador_2);
+const int TIPOS_CARTAS = 5, PALOS = 4, CARTAS_POR_MANO = 5;
+void inicioPartida(int &maximaPuntuacion, string &jugador_1, string &jugador_2, string corralJugador_1[], string corralJugador_2[], string baraja_cartas_muestra[TIPOS_CARTAS][PALOS], bool baraja_cartas_disponibles[TIPOS_CARTAS][PALOS]);
+
 void estadisticas(int maximaPuntuacion);
+
 void creditos();
+
 void tirada_de_dados(string nombre);
-const int TIPOS_CARTAS = 5, PALOS = 4;
-void preparacion_barajas(string baraja_muestra[][PALOS], bool baraja_disponibles[][PALOS]);
+
+void preparacion_barajas(string baraja_cartas_muestra[TIPOS_CARTAS][PALOS], bool baraja_cartas_disponibles[TIPOS_CARTAS][PALOS]);
+
+void repatir_cartas(string baraja_cartas_muestra[TIPOS_CARTAS][PALOS], bool baraja_cartas_disponibles[TIPOS_CARTAS][PALOS], string []);
+
+string quien_inicia(string jugador1, string jugador2, string corralJugador_1[], string corralJugador_2[]);
+
 
 int main() {
+    srand(time(NULL));
 
-    int eleccion, maximaPuntuacion;
-    char salir = 'N';
+    int maximaPuntuacion;
+    char eleccion, salir = 'N';
     string jugador_1, jugador_2;
-    string baraja_cartas_muestra[TIPOS_CARTAS][PALOS]{};
-    bool baraja_cartas_disponibles[TIPOS_CARTAS][PALOS]{};
+
+    string baraja_cartas_muestra[TIPOS_CARTAS][PALOS];
+    bool baraja_cartas_disponibles[TIPOS_CARTAS][PALOS];
+
+    string corralJugador_1[CARTAS_POR_MANO], corralJugador_2[CARTAS_POR_MANO];
+
 
     while(salir == 'N' || salir == 'n'){
 
         cout << " " << endl;
-        cout << "BIENVENIDO A EL MARAVILLOSO MUNDO DE" << endl;
-        cout << "\t\t\tCLUTCH" << endl;
+        cout << "BIENVENIDO A EL MARAVILLOSO MUNDO DEL" << endl;
+        cout << "\t\tCLUTCH" << endl;
         cout << system("pause");
         cout << system("cls");
+
 
         cout << "\t+--------------------------+" << endl;
         cout << "\t|      MENU PRINCIPAL      |" << endl;
@@ -50,31 +60,50 @@ int main() {
 
         preparacion_barajas(baraja_cartas_muestra, baraja_cartas_disponibles);
 
-        if (eleccion != 0){
-            while (eleccion < 0 || eleccion > 3){
+        while(eleccion != '0' && eleccion != '1' && eleccion != '2' && eleccion != '3'){
+            cout << "ERROR, LA ELECCION ES INVALIDA >:C" << endl;
+            cout << "VUELVA A INGRESAR SU ELECCION" << endl;
+
+            cout << "\t+--------------------------+" << endl;
+            cout << "\t|      MENU PRINCIPAL      |" << endl;
+            cout << "\t|       << CLUTCH >>       |" << endl;
+            cout << "\t+--------------------------+" << endl;
+            cout << "\t|   1    |    P v P        |" << endl;
+            cout << "\t|   2    |    ESTADISTICAS |" << endl;
+            cout << "\t|   3    |    CREDITOS     |" << endl;
+            cout << "\t+--------------------------+" << endl;
+            cout << "\t|   0    |    SALIR        |" << endl;
+            cout << "\t+--------------------------+" << endl;
+            cin >> eleccion;
+            cout << system("pause");
+            cout << system("cls");
+        }
+
+        if (eleccion != '0'){
+            while(eleccion != '1' && eleccion != '2' && eleccion != '3'){
                 cout << "ERROR, SELECCION INVALIDA" << endl;
                 cin >> eleccion;
                 cout << system("cls");
             }
 
             switch(eleccion){
-                case 1:
-                    inicioPartida(maximaPuntuacion, jugador_1, jugador_2);
-                    break;
+                case '1':
+                    inicioPartida(maximaPuntuacion, jugador_1, jugador_2, corralJugador_1, corralJugador_2, baraja_cartas_muestra, baraja_cartas_disponibles);
+                break;
 
-                case 2:
+                case '2':
                     estadisticas(maximaPuntuacion);
-                    break;
+                break;
 
-                case 3:
+                case '3':
                     creditos();
-                    break;
+                break;
             }
         }
 
-        if (eleccion == 0) {
+        if (eleccion == '0') {
 
-            cout << "DESEA SALIR DE ESTE HERMOSO MENU?" << endl;
+            cout << "REALMENTE DESEA SALIR" << endl;
             cout << "\tS = SI \n\tN = NO" << endl;
             cin >> salir;
 
@@ -89,4 +118,3 @@ int main() {
 
     return 0;
 }
-
