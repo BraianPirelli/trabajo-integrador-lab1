@@ -7,13 +7,13 @@
 using namespace std;
 
 const int TIPOS_CARTAS = 5, PALOS = 4, CARTAS_POR_MANO = 5;
-void inicioPartida(int &maximaPuntuacion, string &jugador_1, string &jugador_2, string corralJugador_1[], string corralJugador_2[], string baraja_cartas_muestra[TIPOS_CARTAS][PALOS], bool baraja_cartas_disponibles[TIPOS_CARTAS][PALOS]);
+void inicioPartida(int &maximaPuntuacion, string &maximoGanador, string &jugador_1, string &jugador_2, string corralJugador_1[], string corralJugador_2[], string baraja_cartas_muestra[TIPOS_CARTAS][PALOS], bool baraja_cartas_disponibles[TIPOS_CARTAS][PALOS], bool cartas_bloqueadas_jugador1[], bool cartas_bloqueadas_jugador2[], int CARTAS_POR_MANO);
 
-void estadisticas(int maximaPuntuacion);
+void estadisticas(int maximaPuntuacion, string maximoGanador);
 
 void creditos();
 
-void tirada_de_dados(string nombre);
+int tirada_de_dados(string);
 
 void preparacion_barajas(string baraja_cartas_muestra[TIPOS_CARTAS][PALOS], bool baraja_cartas_disponibles[TIPOS_CARTAS][PALOS]);
 
@@ -21,21 +21,53 @@ void repatir_cartas(string baraja_cartas_muestra[TIPOS_CARTAS][PALOS], bool bara
 
 string quien_inicia(string jugador1, string jugador2, string corralJugador_1[], string corralJugador_2[]);
 
+void iniciador_cartas_bloqueadas(bool cartas_bloqueadas_jugador1[], bool cartas_bloqueadas_jugador2[]);
 
-int main() {
+void acciones_del_dado(int dado, string turno, string jugador1, string jugador2, string corralJugador1[], string corralJugador_2[], string baraja_cartas_muestra[TIPOS_CARTAS][PALOS], bool baraja_cartas_disponibles[TIPOS_CARTAS][PALOS], int TIPOS_CARTAS, int PALOS, bool cartas_bloqueadas_jugador1[], bool cartas_bloqueadas_jugador2[], bool &jugador_1_paso_turno, bool &jugador_2_paso_turno, bool &le_robaron_al_1, bool &le_robaron_al_2);
+
+void accion_1(string turno, string corral_propio[], string baraja_cartas_muestra[TIPOS_CARTAS][PALOS], bool baraja_cartas_disponibles[TIPOS_CARTAS][PALOS], int TIPOS_CARTAS, int PALOS, bool cartas_bloqueadas[]);
+
+void accion_2(string turno, string corral_contrario[], string baraja_cartas_muestra[TIPOS_CARTAS][PALOS], bool baraja_cartas_disponibles[TIPOS_CARTAS][PALOS], int TIPOS_CARTAS, int PALOS, bool cartas_bloqueadas_jugador[]);
+
+void accion_3(string turno, string corral_propio[], string corral_contrario[], bool cartas_bloqueadas_contrario[], bool cartas_bloqueadas_propias[], bool &le_robaron);
+
+void accion_4(string turno, string corral_propio[]);
+
+void accion_5(string turno, string corral_propio[], bool cartas_bloqueadas[]);
+
+void accion_6(string turno, string jugador1, string jugador2, string corralJugador_1[], string corralJugador_2[], string baraja_cartas_muestra[TIPOS_CARTAS][PALOS], bool baraja_cartas_disponibles[TIPOS_CARTAS][PALOS], int TIPOS_CARTAS, int PALOS, bool cartas_bloqueadas_jugador1[], bool cartas_bloqueadas_jugador2[], bool &jugador_1_paso_turno, bool &jugador_2_paso_turno, bool &le_robaron_al_1, bool &le_robaron_al_2);
+
+int verificador_de_indices();
+
+bool verificador_de_orden(string jugador_1, string jugador_2, string corraljugador_1[], string corraljugador_2[], int CARTAS_POR_MANO, string &ganador);
+
+int verificador_de_desorden(string jugador_1, string jugador_2, string corraljugador_1[], string corraljugador_2[], int CARTAS_POR_MANO, string ganador);
+
+int contador_de_puntos(string ganador, string jugador_1, string jugador_2, int dado_1, int dado_2, int cartas_desordenadas, bool jugador_1_paso_turno, bool jugador_2_paso_turno, bool le_robaron_al_1, bool le_robaron_al_2);
+
+void asignacion_maxima_puntuacion(int puntuacionFinal, string ganador, int &maximaPuntuacion, string &maximoGanador);
+
+
+
+
+
+int main()
+{
     srand(time(NULL));
 
-    int maximaPuntuacion;
+    int maximaPuntuacion = 0;
+    string maximoGanador;
     char eleccion, salir = 'N';
     string jugador_1, jugador_2;
 
     string baraja_cartas_muestra[TIPOS_CARTAS][PALOS];
-    bool baraja_cartas_disponibles[TIPOS_CARTAS][PALOS];
+    bool baraja_cartas_disponibles[TIPOS_CARTAS][PALOS], cartas_bloqueadas_jugador1[CARTAS_POR_MANO], cartas_bloqueadas_jugador2[CARTAS_POR_MANO];;
 
     string corralJugador_1[CARTAS_POR_MANO], corralJugador_2[CARTAS_POR_MANO];
 
 
-    while(salir == 'N' || salir == 'n'){
+    while(salir == 'N' || salir == 'n')
+    {
 
         cout << " " << endl;
         cout << "BIENVENIDO A EL MARAVILLOSO MUNDO DEL" << endl;
@@ -60,7 +92,8 @@ int main() {
 
         preparacion_barajas(baraja_cartas_muestra, baraja_cartas_disponibles);
 
-        while(eleccion != '0' && eleccion != '1' && eleccion != '2' && eleccion != '3'){
+        while(eleccion != '0' && eleccion != '1' && eleccion != '2' && eleccion != '3')
+        {
             cout << "ERROR, LA ELECCION ES INVALIDA >:C" << endl;
             cout << "VUELVA A INGRESAR SU ELECCION" << endl;
 
@@ -79,35 +112,40 @@ int main() {
             cout << system("cls");
         }
 
-        if (eleccion != '0'){
-            while(eleccion != '1' && eleccion != '2' && eleccion != '3'){
+        if (eleccion != '0')
+        {
+            while(eleccion != '1' && eleccion != '2' && eleccion != '3')
+            {
                 cout << "ERROR, SELECCION INVALIDA" << endl;
                 cin >> eleccion;
                 cout << system("cls");
             }
 
-            switch(eleccion){
-                case '1':
-                    inicioPartida(maximaPuntuacion, jugador_1, jugador_2, corralJugador_1, corralJugador_2, baraja_cartas_muestra, baraja_cartas_disponibles);
+            switch(eleccion)
+            {
+            case '1':
+                inicioPartida(maximaPuntuacion, maximoGanador, jugador_1, jugador_2, corralJugador_1, corralJugador_2, baraja_cartas_muestra, baraja_cartas_disponibles, cartas_bloqueadas_jugador1, cartas_bloqueadas_jugador2, CARTAS_POR_MANO);
                 break;
 
-                case '2':
-                    estadisticas(maximaPuntuacion);
+            case '2':
+                estadisticas(maximaPuntuacion, maximoGanador);
                 break;
 
-                case '3':
-                    creditos();
+            case '3':
+                creditos();
                 break;
             }
         }
 
-        if (eleccion == '0') {
+        if (eleccion == '0')
+        {
 
             cout << "REALMENTE DESEA SALIR" << endl;
             cout << "\tS = SI \n\tN = NO" << endl;
             cin >> salir;
 
-            while(salir != 'S' && salir != 's' && salir != 'N' && salir != 'n'){
+            while(salir != 'S' && salir != 's' && salir != 'N' && salir != 'n')
+            {
                 cout << "ERROR, SELECCION INVALIDA" << endl;
                 cin >> salir;
             }
