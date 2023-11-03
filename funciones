@@ -39,7 +39,7 @@ void accion_6(string turno, string jugador1, string jugador2, string corralJugad
 
 int verificador_de_indices();
 
-bool verificador_de_orden(string jugador_1, string jugador_2, string corraljugador_1[], string corraljugador_2[], int CARTAS_POR_MANO, string &ganador);
+void verificador_de_orden(string jugador_1, string jugador_2, string corraljugador_1[], string corraljugador_2[], int CARTAS_POR_MANO, string &ganador, bool &finPartida);
 
 int verificador_de_desorden(string jugador_1, string jugador_2, string corraljugador_1[], string corraljugador_2[], int CARTAS_POR_MANO, string ganador);
 
@@ -51,10 +51,9 @@ void asignacion_maxima_puntuacion(int puntuacionFinal, string ganador, int &maxi
 
 
 /** pvp ----------------------------------------------------------------------------------------------------------------- **/
-void inicioPartida(int &maximaPuntuacion, string &maximoGanador, string &jugador_1, string &jugador_2, string corralJugador_1[], string corralJugador_2[], string baraja_cartas_muestra[TIPOS_CARTAS][PALOS], bool baraja_cartas_disponibles[TIPOS_CARTAS][PALOS], bool cartas_bloqueadas_jugador1[], bool cartas_bloqueadas_jugador2[], int CARTAS_POR_MANO)
-{
+void inicioPartida(int &maximaPuntuacion, string &maximoGanador, string &jugador_1, string &jugador_2, string corralJugador_1[], string corralJugador_2[], string baraja_cartas_muestra[TIPOS_CARTAS][PALOS], bool baraja_cartas_disponibles[TIPOS_CARTAS][PALOS], bool cartas_bloqueadas_jugador1[], bool cartas_bloqueadas_jugador2[], int CARTAS_POR_MANO){
 
-    int ronda = 0, dado, cartas_desordenadas, puntuacionFinal;
+    int ronda = 0, dado, cartas_desordenadas = 0, puntuacionFinal = 0;
     bool finPartida = false;
     char confirmar;
     string turno, ganador;
@@ -69,15 +68,12 @@ void inicioPartida(int &maximaPuntuacion, string &maximoGanador, string &jugador
 
 
 
-    while(finPartida == false)
-    {
+    while(!finPartida){
 
         // la "ronda 0" es una forma subjetiva de usar el contador,
         // para que en primera instancia pida los nombres de los jugadores
-        if (ronda == 0)
-        {
-            do
-            {
+        if (ronda == 0){
+            do {
                 cout << "\tCLUTCH" << endl;
                 cout << "---------------------------------------------------------------------------------------" << endl;
 
@@ -98,25 +94,21 @@ void inicioPartida(int &maximaPuntuacion, string &maximoGanador, string &jugador
                 cout << "confirmar nombres" << endl;
                 cout << "S - si\nN - no" << endl;
                 cin >> confirmar;
-                while(confirmar != 'N' && confirmar != 'n' && confirmar != 'S' && confirmar != 's')
-                {
+                while(confirmar != 'N' && confirmar != 'n' && confirmar != 'S' && confirmar != 's'){
                     cout << "ERROR, INGRESE UNA CONFIRMACION VALIDA" << endl;
                     cin >> confirmar;
                 }
 
-            }
-            while (confirmar == 'N' || confirmar == 'n');
+            } while (confirmar == 'N' || confirmar == 'n');
 
             cout << "---------------------------------------------------------------------------------------" << endl;
 
 
             cout << system("cls");
 
-            // cuando el contador esta en 1, primera ronda, se reparten las cartas, por unica vez, y luego
-            // se desarrolla el juego en base a la logica de los dados
-        }
-        else if (ronda == 1)
-        {
+        // cuando el contador esta en 1, primera ronda, se reparten las cartas, por unica vez, y luego
+        // se desarrolla el juego en base a la logica de los dados
+        } else if (ronda == 1){
             cout << "\tCLUTCH" << endl;
             cout << "---------------------------------------------------------------------------------------" << endl;
 
@@ -129,8 +121,7 @@ void inicioPartida(int &maximaPuntuacion, string &maximoGanador, string &jugador
             repatir_cartas(baraja_cartas_muestra, baraja_cartas_disponibles, corralJugador_1);
 
             cout << jugador_1 << ":" << endl;
-            for (int x = 0; x < 5; x++)
-            {
+            for (int x = 0; x < 5; x++){
                 cout << "\t" << corralJugador_1[x] << " " << endl;
             }
 
@@ -142,14 +133,15 @@ void inicioPartida(int &maximaPuntuacion, string &maximoGanador, string &jugador
             repatir_cartas(baraja_cartas_muestra, baraja_cartas_disponibles, corralJugador_2);
 
             cout << jugador_2 << ":" << endl;
-            for (int x = 0; x < 5; x++)
-            {
+            for (int x = 0; x < 5; x++){
                 cout << "\t" << corralJugador_2[x] << " " << endl;
             }
 
             cout << "---------------------------------------------------------------------------------------" << endl;
 
-            finPartida = verificador_de_orden(jugador_1, jugador_2, corralJugador_1, corralJugador_2, CARTAS_POR_MANO, ganador);
+            verificador_de_orden(jugador_1, jugador_2, corralJugador_1, corralJugador_2, CARTAS_POR_MANO, ganador, finPartida);
+
+
 
             turno = quien_inicia(jugador_1, jugador_2, corralJugador_1, corralJugador_2);
 
@@ -157,9 +149,7 @@ void inicioPartida(int &maximaPuntuacion, string &maximoGanador, string &jugador
             cout << system("pause");
             cout << system("cls");
 
-        }
-        else
-        {
+        } else {
             cout << "\tCLUTCH" << endl;
             cout << "---------------------------------------------------------------------------------------" << endl;
 
@@ -168,75 +158,76 @@ void inicioPartida(int &maximaPuntuacion, string &maximoGanador, string &jugador
             cout << jugador_1 << "  VS  " << jugador_2 << endl;
             cout << endl;
 
-            if (turno == jugador_1)
-            {
+            if (turno == jugador_1){
 
 
                 cout << "TURNO DE " << jugador_1 << endl;
                 cout << endl;
 
                 cout << jugador_1 << ":" << endl;
-                for (int x = 0; x < 5; x++)
-                {
+                for (int x = 0; x < 5; x++){
                     cout << "\t" << corralJugador_1[x] << " " << endl;
                 }
                 cout << endl;
 
                 cout << jugador_2 << ":" << endl;
-                for (int x = 0; x < 5; x++)
-                {
+                for (int x = 0; x < 5; x++){
                     cout << "\t" << corralJugador_2[x] << " " << endl;
                 }
                 cout << endl;
 
-                // funcion de tirar dados
 
-                dado = tirada_de_dados(turno);
-                dado_1 = dado;
+                verificador_de_orden(jugador_1, jugador_2, corralJugador_1, corralJugador_2, CARTAS_POR_MANO, ganador, finPartida);
 
 
-                // llamada a la funcion de los dados
+                if (!finPartida){
+                    // funcion de tirar dados
 
-                acciones_del_dado(dado, turno, jugador_1, jugador_2, corralJugador_1, corralJugador_2, baraja_cartas_muestra, baraja_cartas_disponibles, TIPOS_CARTAS, PALOS, cartas_bloqueadas_jugador1, cartas_bloqueadas_jugador2, jugador_1_paso_turno, jugador_2_paso_turno, le_robaron_al_1, le_robaron_al_2);
+                    dado = tirada_de_dados(turno);
+                    dado_1 = dado;
 
-                finPartida = verificador_de_orden(jugador_1, jugador_2, corralJugador_1, corralJugador_2, CARTAS_POR_MANO, ganador);
+
+                    // llamada a la funcion de los dados
+
+                    acciones_del_dado(dado, turno, jugador_1, jugador_2, corralJugador_1, corralJugador_2, baraja_cartas_muestra, baraja_cartas_disponibles, TIPOS_CARTAS, PALOS, cartas_bloqueadas_jugador1, cartas_bloqueadas_jugador2, jugador_1_paso_turno, jugador_2_paso_turno, le_robaron_al_1, le_robaron_al_2);
+                }
 
 
                 // si el que inicio es el jugador 2, se define que el siguiente turno sera
                 // del jugador 1
                 turno = jugador_2;
 
-            }
-            else
-            {
+            } else {
 
                 cout << "TURNO DE " << jugador_2 << endl;
                 cout << endl;
 
                 cout << jugador_2 << ":" << endl;
-                for (int x = 0; x < 5; x++)
-                {
+                for (int x = 0; x < 5; x++){
                     cout << "\t" << corralJugador_2[x] << " " << endl;
                 }
                 cout << endl;
 
                 cout << jugador_1 << ":" << endl;
-                for (int x = 0; x < 5; x++)
-                {
+                for (int x = 0; x < 5; x++){
                     cout << "\t" << corralJugador_1[x] << " " << endl;
                 }
                 cout << endl;
 
-                // funcion de tirar dados
 
-                dado = tirada_de_dados(turno);
-                dado_2 = dado;
+                verificador_de_orden(jugador_1, jugador_2, corralJugador_1, corralJugador_2, CARTAS_POR_MANO, ganador, finPartida);
 
-                // llamada a la funcion de los dados
 
-                acciones_del_dado(dado, turno, jugador_1, jugador_2, corralJugador_1, corralJugador_2, baraja_cartas_muestra, baraja_cartas_disponibles, TIPOS_CARTAS, PALOS, cartas_bloqueadas_jugador1, cartas_bloqueadas_jugador2, jugador_1_paso_turno, jugador_2_paso_turno, le_robaron_al_1, le_robaron_al_2);
+                if (!finPartida){
+                    // funcion de tirar dados
 
-                finPartida = verificador_de_orden(jugador_1, jugador_2, corralJugador_1, corralJugador_2, CARTAS_POR_MANO, ganador);
+                    dado = tirada_de_dados(turno);
+                    dado_2 = dado;
+
+                    // llamada a la funcion de los dados
+
+                    acciones_del_dado(dado, turno, jugador_1, jugador_2, corralJugador_1, corralJugador_2, baraja_cartas_muestra, baraja_cartas_disponibles, TIPOS_CARTAS, PALOS, cartas_bloqueadas_jugador1, cartas_bloqueadas_jugador2, jugador_1_paso_turno, jugador_2_paso_turno, le_robaron_al_1, le_robaron_al_2);
+                }
 
 
                 // si el que inicio es el jugador 2, se define que el siguiente turno sera
@@ -258,8 +249,7 @@ void inicioPartida(int &maximaPuntuacion, string &maximoGanador, string &jugador
 
     puntuacionFinal = contador_de_puntos(ganador, jugador_1, jugador_2, dado_1, dado_2, cartas_desordenadas, jugador_1_paso_turno, jugador_2_paso_turno, le_robaron_al_1, le_robaron_al_2);
 
-    if (puntuacionFinal > maximaPuntuacion)
-    {
+    if (puntuacionFinal > maximaPuntuacion){
 
         asignacion_maxima_puntuacion(puntuacionFinal, ganador, maximaPuntuacion, maximoGanador);
 
@@ -271,8 +261,7 @@ void inicioPartida(int &maximaPuntuacion, string &maximoGanador, string &jugador
 
 
 /** estadisticas -----------------------------------------------------------------------------------------------------------------**/
-void estadisticas(int maxPuntuacion, string maxGanador)
-{
+void estadisticas(int maxPuntuacion, string maxGanador) {
 
     cout << "\tmejor puntuacion: " << maxPuntuacion << " " << maxGanador << endl;
 
@@ -282,8 +271,7 @@ void estadisticas(int maxPuntuacion, string maxGanador)
 
 /** creditos ----------------------------------------------------------------------------------------------------------------- **/
 
-void creditos()
-{
+void creditos() {
     cout << "CREDITOS" << endl;
     cout << "---------------------------------------------------------------------------------------" << endl;
     cout << endl;
@@ -297,8 +285,7 @@ void creditos()
 
 
 /** tirada de dados ----------------------------------------------------------------------------------------------------------------- **/
-int tirada_de_dados(string turno)
-{
+int tirada_de_dados(string turno){
 
     int dado = 1 + rand()%(6);
 
@@ -308,8 +295,7 @@ int tirada_de_dados(string turno)
     cout << "SACO EL DADO: " << endl;
     cout << endl;
 
-    switch (dado)
-    {
+    switch (dado){
     case 1:
         cout << "\t\t+-----------+" << endl;
         cout << "\t\t|           |" << endl;
@@ -405,8 +391,7 @@ int tirada_de_dados(string turno)
 
 /** carga de matrices -----------------------------------------------------------------------------------------------------------**/
 
-void preparacion_barajas(string baraja_cartas_muestra[][4], bool baraja_cartas_disponibles[][4])
-{
+void preparacion_barajas(string baraja_cartas_muestra[][4], bool baraja_cartas_disponibles[][4]) {
 
     const int TIPOS = 5;
     const int PALOS = 4;
@@ -414,10 +399,8 @@ void preparacion_barajas(string baraja_cartas_muestra[][4], bool baraja_cartas_d
     const string nombresCartas[] = {"10", "J", "Q", "K", "A"};
     const string nombresPalos[] = {"corazones", "picas", "diamantes", "trebol"};
 
-    for (int x = 0; x < TIPOS; x++)
-    {
-        for (int y = 0; y < PALOS; y++)
-        {
+    for (int x = 0; x < TIPOS; x++) {
+        for (int y = 0; y < PALOS; y++) {
             baraja_cartas_muestra[x][y] = nombresCartas[x] + " " + nombresPalos[y];
 
             baraja_cartas_disponibles[x][y] = true;
@@ -428,8 +411,7 @@ void preparacion_barajas(string baraja_cartas_muestra[][4], bool baraja_cartas_d
 
 /** reparticion de cartas ---------------------------------------------------------------------------------------------------------**/
 
-void repatir_cartas(string baraja_cartas_muestra[][4], bool baraja_cartas_disponibles[][4], string corral[])
-{
+void repatir_cartas(string baraja_cartas_muestra[][4], bool baraja_cartas_disponibles[][4], string corral[]){
 
     srand(time(NULL));
 
@@ -437,28 +419,23 @@ void repatir_cartas(string baraja_cartas_muestra[][4], bool baraja_cartas_dispon
     int indiceCarta;
     int indicePalo;
 
-    for (int x = 0; x < manoDeCartas; x++)
-    {
+    for (int x = 0; x < manoDeCartas; x++){
         indiceCarta = rand()%(5); // CAMBIE LOS INDICES YA QUE DE LA FORMA QUE ESTABAN ESCRITOS
         indicePalo = rand()%(4);  // ANTES, NO SE ANALIZABA EL "AS"
 
         // pregunto si en la posicion del indice random "carta" y random "palo", esta disponible
-        if (baraja_cartas_disponibles[indiceCarta][indicePalo] == true)
-        {
+        if (baraja_cartas_disponibles[indiceCarta][indicePalo] == true){
 
             // si esta, se asigna al "corral" el valor que tiene almacenado la matriz "muestra",
             // y la matriz "disponible" se pone en false
             corral[x] = baraja_cartas_muestra[indiceCarta][indicePalo];
             baraja_cartas_disponibles[indiceCarta][indicePalo] = false;
 
-        }
-        else
-        {
+        } else {
             // en caso de no estar disponible esa carta se generan dos indices nuevos hasta que si este disponible
-            while (baraja_cartas_disponibles[indiceCarta][indicePalo] == false)
-            {
+            while (baraja_cartas_disponibles[indiceCarta][indicePalo] == false){
 
-                indiceCarta = rand()%(5); // CAMBIE LOS INDICES PARA QUE SE PUEDA RECORRER DE FORMA MAS EFICAS
+                indiceCarta = rand()%(5); // CAMBIE LOS INDICES PARA QUE SE PUEDA RECORRER DE FORMA MAS EFICAZ
                 indicePalo = rand()%(4);  // LA MATRIZ
 
             }
@@ -474,147 +451,103 @@ void repatir_cartas(string baraja_cartas_muestra[][4], bool baraja_cartas_dispon
 
 /** quien comienza la partida ---------------------------------------------------------------------------------------------------------**/
 
-string quien_inicia(string jugador1, string jugador2, string corralJugador_1[], string corralJugador_2[])
-{
+string quien_inicia(string jugador1, string jugador2, string corralJugador_1[], string corralJugador_2[]){
     int cantidad_j1 = 0, cantidad_j2 = 0;
-    for (int x = 0; x < CARTAS_POR_MANO; x++)
-    {
-        if (corralJugador_1[x] == "A corazones" || corralJugador_1[x] == "A picas" || corralJugador_1[x] == "A diamantes" || corralJugador_1[x] == "A trebol")
-        {
+    for (int x = 0; x < CARTAS_POR_MANO; x++){
+        if (corralJugador_1[x] == "A corazones" || corralJugador_1[x] == "A picas" || corralJugador_1[x] == "A diamantes" || corralJugador_1[x] == "A trebol"){
             cantidad_j1++;
         }
     }
 
-    for (int x = 0; x < CARTAS_POR_MANO; x++)
-    {
-        if (corralJugador_2[x] == "A corazones" || corralJugador_2[x] == "A picas" || corralJugador_2[x] == "A diamantes" || corralJugador_2[x] == "A trebol")
-        {
+    for (int x = 0; x < CARTAS_POR_MANO; x++){
+        if (corralJugador_2[x] == "A corazones" || corralJugador_2[x] == "A picas" || corralJugador_2[x] == "A diamantes" || corralJugador_2[x] == "A trebol"){
             cantidad_j2++;
         }
     }
 
-    if (cantidad_j1 == cantidad_j2)
-    {
+    if (cantidad_j1 == cantidad_j2){
         cantidad_j1 = 0, cantidad_j2 = 0;
-        for (int x = 0; x < CARTAS_POR_MANO; x++)
-        {
-            if (corralJugador_1[x] == "K corazones" || corralJugador_1[x] == "K picas" || corralJugador_1[x] == "K diamantes" || corralJugador_1[x] == "K trebol")
-            {
+        for (int x = 0; x < CARTAS_POR_MANO; x++){
+            if (corralJugador_1[x] == "K corazones" || corralJugador_1[x] == "K picas" || corralJugador_1[x] == "K diamantes" || corralJugador_1[x] == "K trebol"){
                 cantidad_j1++;
             }
         }
 
-        for (int x = 0; x < CARTAS_POR_MANO; x++)
-        {
-            if (corralJugador_2[x] == "K corazones" || corralJugador_2[x] == "K picas" || corralJugador_2[x] == "K diamantes" || corralJugador_2[x] == "K trebol")
-            {
+        for (int x = 0; x < CARTAS_POR_MANO; x++){
+            if (corralJugador_2[x] == "K corazones" || corralJugador_2[x] == "K picas" || corralJugador_2[x] == "K diamantes" || corralJugador_2[x] == "K trebol"){
                 cantidad_j2++;
             }
         }
 
 
-        if (cantidad_j1 == cantidad_j2)
-        {
+        if (cantidad_j1 == cantidad_j2){
             cantidad_j1 = 0, cantidad_j2 = 0;
-            for (int x = 0; x < CARTAS_POR_MANO; x++)
-            {
-                if (corralJugador_1[x] == "Q corazones" || corralJugador_1[x] == "Q picas" || corralJugador_1[x] == "Q diamantes" || corralJugador_1[x] == "Q trebol")
-                {
+            for (int x = 0; x < CARTAS_POR_MANO; x++){
+                if (corralJugador_1[x] == "Q corazones" || corralJugador_1[x] == "Q picas" || corralJugador_1[x] == "Q diamantes" || corralJugador_1[x] == "Q trebol"){
                     cantidad_j1++;
                 }
             }
 
-            for (int x = 0; x < CARTAS_POR_MANO; x++)
-            {
-                if (corralJugador_2[x] == "Q corazones" || corralJugador_2[x] == "Q picas" || corralJugador_2[x] == "Q diamantes" || corralJugador_2[x] == "Q trebol")
-                {
+            for (int x = 0; x < CARTAS_POR_MANO; x++){
+                if (corralJugador_2[x] == "Q corazones" || corralJugador_2[x] == "Q picas" || corralJugador_2[x] == "Q diamantes" || corralJugador_2[x] == "Q trebol"){
                     cantidad_j2++;
                 }
             }
 
-            if (cantidad_j1 == cantidad_j2)
-            {
+            if (cantidad_j1 == cantidad_j2){
                 cantidad_j1 = 0, cantidad_j2 = 0;
-                for (int x = 0; x < CARTAS_POR_MANO; x++)
-                {
-                    if (corralJugador_1[x] == "J corazones" || corralJugador_1[x] == "J picas" || corralJugador_1[x] == "J diamantes" || corralJugador_1[x] == "J trebol")
-                    {
+                for (int x = 0; x < CARTAS_POR_MANO; x++){
+                    if (corralJugador_1[x] == "J corazones" || corralJugador_1[x] == "J picas" || corralJugador_1[x] == "J diamantes" || corralJugador_1[x] == "J trebol"){
                         cantidad_j1++;
                     }
                 }
 
-                for (int x = 0; x < CARTAS_POR_MANO; x++)
-                {
-                    if (corralJugador_2[x] == "J corazones" || corralJugador_2[x] == "J picas" || corralJugador_2[x] == "J diamantes" || corralJugador_2[x] == "J trebol")
-                    {
+                for (int x = 0; x < CARTAS_POR_MANO; x++){
+                    if (corralJugador_2[x] == "J corazones" || corralJugador_2[x] == "J picas" || corralJugador_2[x] == "J diamantes" || corralJugador_2[x] == "J trebol"){
                         cantidad_j2++;
                     }
                 }
 
-                if (cantidad_j1 == cantidad_j2)
-                {
+                if (cantidad_j1 == cantidad_j2){
                     cantidad_j1 = 0, cantidad_j2 = 0;
-                    for (int x = 0; x < CARTAS_POR_MANO; x++)
-                    {
-                        if (corralJugador_1[x] == "10 corazones" || corralJugador_1[x] == "10 picas" || corralJugador_1[x] == "10 diamantes" || corralJugador_1[x] == "10 trebol")
-                        {
+                    for (int x = 0; x < CARTAS_POR_MANO; x++){
+                        if (corralJugador_1[x] == "10 corazones" || corralJugador_1[x] == "10 picas" || corralJugador_1[x] == "10 diamantes" || corralJugador_1[x] == "10 trebol"){
                             cantidad_j1++;
                         }
                     }
 
-                    for (int x = 0; x < CARTAS_POR_MANO; x++)
-                    {
-                        if (corralJugador_2[x] == "10 corazones" || corralJugador_2[x] == "10 picas" || corralJugador_2[x] == "10 diamantes" || corralJugador_2[x] == "10 trebol")
-                        {
+                    for (int x = 0; x < CARTAS_POR_MANO; x++){
+                        if (corralJugador_2[x] == "10 corazones" || corralJugador_2[x] == "10 picas" || corralJugador_2[x] == "10 diamantes" || corralJugador_2[x] == "10 trebol"){
                             cantidad_j2++;
                         }
                     }
 
-                    if (cantidad_j1 > cantidad_j2)
-                    {
+                    if (cantidad_j1 > cantidad_j2){
                         return jugador1;
-                    }
-                    else
-                    {
+                    } else {
                         return jugador2;
                     }
-                }
-                else if (cantidad_j1 > cantidad_j2)
-                {
+                } else if (cantidad_j1 > cantidad_j2){
                     return jugador1;
-                }
-                else
-                {
+                } else {
                     return jugador2;
                 }
 
-            }
-            else if (cantidad_j1 > cantidad_j2)
-            {
+            } else if (cantidad_j1 > cantidad_j2){
                 return jugador1;
-            }
-            else
-            {
+            } else {
                 return jugador2;
             }
 
-        }
-        else if (cantidad_j1 > cantidad_j2)
-        {
+        } else if (cantidad_j1 > cantidad_j2){
             return jugador1;
-        }
-        else
-        {
+        } else {
             return jugador2;
         }
 
-    }
-    else if (cantidad_j1 > cantidad_j2)
-    {
+    } else if (cantidad_j1 > cantidad_j2){
         return jugador1;
-    }
-    else
-    {
+    } else {
         return jugador2;
     }
 }
@@ -622,11 +555,9 @@ string quien_inicia(string jugador1, string jugador2, string corralJugador_1[], 
 
 /** iniciador de cartas bloqueadas ---------------------------------------------------------------------------------------------------------**/
 
-void iniciador_cartas_bloqueadas(bool cartas_bloqueadas_jugador1[], bool cartas_bloqueadas_jugador2[])
-{
+void iniciador_cartas_bloqueadas(bool cartas_bloqueadas_jugador1[], bool cartas_bloqueadas_jugador2[]){
 
-    for (int x = 0; x < CARTAS_POR_MANO; x++)
-    {
+    for (int x = 0; x < CARTAS_POR_MANO; x++){
         cartas_bloqueadas_jugador1[x] = false;
         cartas_bloqueadas_jugador2[x] = false;
     }
@@ -636,93 +567,72 @@ void iniciador_cartas_bloqueadas(bool cartas_bloqueadas_jugador1[], bool cartas_
 
 /** acciones del dado -----------------------------------------------------------------------------------------------------------------------*/
 
-void acciones_del_dado(int dado, string turno, string jugador1, string jugador2, string corralJugador_1[], string corralJugador_2[], string baraja_cartas_muestra[TIPOS_CARTAS][PALOS], bool baraja_cartas_disponibles[TIPOS_CARTAS][PALOS], int TIPOS_CARTAS, int PALOS, bool cartas_bloqueadas_jugador1[], bool cartas_bloqueadas_jugador2[], bool &jugador_1_paso_turno, bool &jugador_2_paso_turno, bool &le_robaron_al_1, bool &le_robaron_al_2)
-{
+void acciones_del_dado(int dado, string turno, string jugador1, string jugador2, string corralJugador_1[], string corralJugador_2[], string baraja_cartas_muestra[TIPOS_CARTAS][PALOS], bool baraja_cartas_disponibles[TIPOS_CARTAS][PALOS], int TIPOS_CARTAS, int PALOS, bool cartas_bloqueadas_jugador1[], bool cartas_bloqueadas_jugador2[], bool &jugador_1_paso_turno, bool &jugador_2_paso_turno, bool &le_robaron_al_1, bool &le_robaron_al_2){
 
 
-    switch(dado)
-    {
-    case 1:
-        if (turno == jugador1)
-        {
-            accion_1(turno, corralJugador_1, baraja_cartas_muestra, baraja_cartas_disponibles, TIPOS_CARTAS, PALOS, cartas_bloqueadas_jugador1);
-        }
-        else
-        {
-            accion_1(turno, corralJugador_2, baraja_cartas_muestra, baraja_cartas_disponibles, TIPOS_CARTAS, PALOS, cartas_bloqueadas_jugador2);
-        }
-        cout << system("pause");
-        cout << system("cls");
-        break;
-    case 2:
-        if (turno == jugador1)
-        {
-            accion_2(turno, corralJugador_2, baraja_cartas_muestra, baraja_cartas_disponibles, TIPOS_CARTAS, PALOS, cartas_bloqueadas_jugador2);
-        }
-        else
-        {
-            accion_2(turno, corralJugador_1, baraja_cartas_muestra, baraja_cartas_disponibles, TIPOS_CARTAS, PALOS, cartas_bloqueadas_jugador1);
-        }
-        cout << system("pause");
-        cout << system("cls");
-        break;
-    case 3:
-        if (turno == jugador1)
-        {
-            accion_3(turno, corralJugador_1, corralJugador_2, cartas_bloqueadas_jugador2, cartas_bloqueadas_jugador1, le_robaron_al_1);
-        }
-        else
-        {
-            accion_3(turno, corralJugador_2, corralJugador_1, cartas_bloqueadas_jugador1, cartas_bloqueadas_jugador2, le_robaron_al_2);
-        }
-        cout << system("pause");
-        cout << system("cls");
-        break;
-    case 4:
-        if (turno == jugador1)
-        {
-            accion_4(turno, corralJugador_1);
-        }
-        else
-        {
-            accion_4(turno, corralJugador_2);
-        }
-        cout << system("pause");
-        cout << system("cls");
-        break;
-    case 5:
-        if (turno == jugador1)
-        {
-            accion_5(turno, corralJugador_1, cartas_bloqueadas_jugador1);
-        }
-        else
-        {
-            accion_5(turno, corralJugador_2, cartas_bloqueadas_jugador2);
-        }
-        cout << system("pause");
-        cout << system("cls");
-        break;
-    case 6:
-        if (turno == jugador1)
-        {
+    switch(dado){
+        case 1:
+            if (turno == jugador1){
+                accion_1(turno, corralJugador_1, baraja_cartas_muestra, baraja_cartas_disponibles, TIPOS_CARTAS, PALOS, cartas_bloqueadas_jugador1);
+            } else {
+                accion_1(turno, corralJugador_2, baraja_cartas_muestra, baraja_cartas_disponibles, TIPOS_CARTAS, PALOS, cartas_bloqueadas_jugador2);
+            }
+            cout << system("pause");
+            cout << system("cls");
+            break;
+        case 2:
+            if (turno == jugador1){
+                accion_2(turno, corralJugador_2, baraja_cartas_muestra, baraja_cartas_disponibles, TIPOS_CARTAS, PALOS, cartas_bloqueadas_jugador2);
+            } else {
+                accion_2(turno, corralJugador_1, baraja_cartas_muestra, baraja_cartas_disponibles, TIPOS_CARTAS, PALOS, cartas_bloqueadas_jugador1);
+            }
+            cout << system("pause");
+            cout << system("cls");
+            break;
+        case 3:
+            if (turno == jugador1){
+                accion_3(turno, corralJugador_1, corralJugador_2, cartas_bloqueadas_jugador2, cartas_bloqueadas_jugador1, le_robaron_al_1);
+            } else {
+                accion_3(turno, corralJugador_2, corralJugador_1, cartas_bloqueadas_jugador1, cartas_bloqueadas_jugador2, le_robaron_al_2);
+            }
+            cout << system("pause");
+            cout << system("cls");
+            break;
+        case 4:
+            if (turno == jugador1){
+                accion_4(turno, corralJugador_1);
+            } else {
+                accion_4(turno, corralJugador_2);
+            }
+            cout << system("pause");
+            cout << system("cls");
+            break;
+        case 5:
+            if (turno == jugador1){
+                accion_5(turno, corralJugador_1, cartas_bloqueadas_jugador1);
+            } else {
+                accion_5(turno, corralJugador_2, cartas_bloqueadas_jugador2);
+            }
+            cout << system("pause");
+            cout << system("cls");
+            break;
+        case 6:
+            if (turno == jugador1){
 
-            accion_6(turno, jugador1, jugador2, corralJugador_1, corralJugador_2, baraja_cartas_muestra, baraja_cartas_disponibles, TIPOS_CARTAS, PALOS, cartas_bloqueadas_jugador1, cartas_bloqueadas_jugador2, jugador_1_paso_turno, jugador_2_paso_turno, le_robaron_al_1, le_robaron_al_2);
-        }
-        else
-        {
-            accion_6(turno, jugador1, jugador2, corralJugador_1, corralJugador_2, baraja_cartas_muestra, baraja_cartas_disponibles, TIPOS_CARTAS, PALOS, cartas_bloqueadas_jugador1, cartas_bloqueadas_jugador2, jugador_1_paso_turno, jugador_2_paso_turno, le_robaron_al_1, le_robaron_al_2);
-        }
-        cout << system("pause");
-        cout << system("cls");
-        break;
+                accion_6(turno, jugador1, jugador2, corralJugador_1, corralJugador_2, baraja_cartas_muestra, baraja_cartas_disponibles, TIPOS_CARTAS, PALOS, cartas_bloqueadas_jugador1, cartas_bloqueadas_jugador2, jugador_1_paso_turno, jugador_2_paso_turno, le_robaron_al_1, le_robaron_al_2);
+            } else {
+                accion_6(turno, jugador1, jugador2, corralJugador_1, corralJugador_2, baraja_cartas_muestra, baraja_cartas_disponibles, TIPOS_CARTAS, PALOS, cartas_bloqueadas_jugador1, cartas_bloqueadas_jugador2, jugador_1_paso_turno, jugador_2_paso_turno, le_robaron_al_1, le_robaron_al_2);
+            }
+            cout << system("pause");
+            cout << system("cls");
+            break;
     }
 }
 
 
 /** accion del dado 1 (dejar una propia y levantar una nueva)------------------------------------------------------------------------------------------------------------------------*/
 
-void accion_1(string turno, string corral_propio[], string baraja_cartas_muestra[TIPOS_CARTAS][PALOS], bool baraja_cartas_disponibles[TIPOS_CARTAS][PALOS], int TIPOS_CARTAS, int PALOS, bool cartas_bloqueadas[])
-{
+void accion_1(string turno, string corral_propio[], string baraja_cartas_muestra[TIPOS_CARTAS][PALOS], bool baraja_cartas_disponibles[TIPOS_CARTAS][PALOS], int TIPOS_CARTAS, int PALOS, bool cartas_bloqueadas[]){
 
 
 
@@ -731,8 +641,7 @@ void accion_1(string turno, string corral_propio[], string baraja_cartas_muestra
 
     cout << "turno del jugador " << turno << endl << endl;
 
-    for (int x = 0; x < 5; x++)
-    {
+    for (int x = 0; x < 5; x++){
         cout << "\t" << corral_propio[x] << " " << endl;
     }
     cout << endl;
@@ -767,30 +676,25 @@ void accion_1(string turno, string corral_propio[], string baraja_cartas_muestra
 
     // pregunta si la carta que el jugador eligio de su mano esta bloqueada,
     // si es verdad la desbloquea
-    if (cartas_bloqueadas[seleccion_propio] == true)
-    {
+    if (cartas_bloqueadas[seleccion_propio] == true){
         cartas_bloqueadas[seleccion_propio] = false;
     }
 
 
     temp = corral_propio[seleccion_propio];
 
-    if (baraja_cartas_disponibles[seleccion_tipo][seleccion_palo] == true)  // primeramente verifica que la carta este disponible
-    {
+    if (baraja_cartas_disponibles[seleccion_tipo][seleccion_palo] == true){ // primeramente verifica que la carta este disponible
 
         // Realiza el intercambio de cartas si la carta esta disponible
 
-        for (int x = 0; x < TIPOS_CARTAS; x++)
-        {
-            for (int y = 0; y < PALOS; y++)
-            {
+        for (int x = 0; x < TIPOS_CARTAS; x++){
+            for (int y = 0; y < PALOS; y++){
 
                 // aca lo que hace es buscar la carta que selecciono el jugador
                 // en la baraja de muestra, una vez que la encuentra
                 // usa los indices de esa carta (alojados en la "baraja muestra",
                 // usa ese indice en la "baraja disponibles", y convierte la carta a disponible
-                if (temp == baraja_cartas_muestra[x][y])
-                {
+                if (temp == baraja_cartas_muestra[x][y]){
                     baraja_cartas_disponibles[x][y] = true;
                 }
             }
@@ -802,25 +706,19 @@ void accion_1(string turno, string corral_propio[], string baraja_cartas_muestra
         // y aca, lo que hace es poner, en false la carta asi ya no esta disponible para su eleccion.
         baraja_cartas_disponibles[seleccion_tipo][seleccion_palo] = false;
 
-    }
-    else
-    {
+    } else {
         // en caso de no estar disponible genera indices
         // hasta toparse con una posicion de carta disponible
-        while (baraja_cartas_disponibles[seleccion_tipo][seleccion_palo] == false)
-        {
+        while (baraja_cartas_disponibles[seleccion_tipo][seleccion_palo] == false){
             seleccion_tipo = rand() % TIPOS_CARTAS;
             seleccion_palo = rand() % PALOS;
         }
 
         // Realizar el intercambio de cartas
 
-        for (int x = 0; x < TIPOS_CARTAS; x++)
-        {
-            for (int y = 0; y < PALOS; y++)
-            {
-                if (temp == baraja_cartas_muestra[x][y])
-                {
+        for (int x = 0; x < TIPOS_CARTAS; x++){
+            for (int y = 0; y < PALOS; y++){
+                if (temp == baraja_cartas_muestra[x][y]){
                     baraja_cartas_disponibles[x][y] = true;
                 }
             }
@@ -834,15 +732,13 @@ void accion_1(string turno, string corral_propio[], string baraja_cartas_muestra
 
 /** accion del dado 2 (dejar una del rival y levantar una nueva)------------------------------------------------------------------------------------------------------------------------*/
 
-void accion_2(string turno, string corral_contrario[], string baraja_cartas_muestra[TIPOS_CARTAS][PALOS], bool baraja_cartas_disponibles[TIPOS_CARTAS][PALOS], int TIPOS_CARTAS, int PALOS, bool cartas_bloqueadas[])
-{
+void accion_2(string turno, string corral_contrario[], string baraja_cartas_muestra[TIPOS_CARTAS][PALOS], bool baraja_cartas_disponibles[TIPOS_CARTAS][PALOS], int TIPOS_CARTAS, int PALOS, bool cartas_bloqueadas[]){
     int seleccion_contrario, seleccion_tipo, seleccion_palo;
     string temp; // variables temporal / auxiliar
     cout << "turno del jugador " << turno << endl << endl;
 
 
-    for (int x = 0; x < 5; x++)
-    {
+    for (int x = 0; x < 5; x++){
         cout << "\t" << corral_contrario[x] << " " << endl;
     }
     cout << endl;
@@ -854,8 +750,7 @@ void accion_2(string turno, string corral_contrario[], string baraja_cartas_mues
     seleccion_contrario = verificador_de_indices();
 
     // verifica que la carta en esa seleccion no este bloqueada por su dueño
-    while (cartas_bloqueadas[seleccion_contrario] == true)
-    {
+    while (cartas_bloqueadas[seleccion_contrario] == true){
 
         cout << "no se puede seleccionar esta carta, el dueño la bloqueo" << endl;
         seleccion_contrario = verificador_de_indices();
@@ -868,22 +763,18 @@ void accion_2(string turno, string corral_contrario[], string baraja_cartas_mues
 
 
 
-    if (baraja_cartas_disponibles[seleccion_tipo][seleccion_palo] == true)  // primeramente verifica que la carta este disponible
-    {
+    if (baraja_cartas_disponibles[seleccion_tipo][seleccion_palo] == true){ // primeramente verifica que la carta este disponible
 
         // Realiza el intercambio de cartas si la carta esta disponible
 
-        for (int x = 0; x < TIPOS_CARTAS; x++)
-        {
-            for (int y = 0; y < PALOS; y++)
-            {
+        for (int x = 0; x < TIPOS_CARTAS; x++){
+            for (int y = 0; y < PALOS; y++){
 
                 // aca lo que hace es buscar la carta que selecciono el jugador
                 // en la baraja de muestra, una vez que la encuentra
                 // usa los indices de esa carta (alojados en la "baraja muestra",
                 // usa ese indice en la "baraja disponibles", y convierte la carta a disponible
-                if (temp == baraja_cartas_muestra[x][y])
-                {
+                if (temp == baraja_cartas_muestra[x][y]){
                     baraja_cartas_disponibles[x][y] = true;
                 }
             }
@@ -895,25 +786,19 @@ void accion_2(string turno, string corral_contrario[], string baraja_cartas_mues
         // y aca, lo que hace es poner, en false la carta asi ya no esta disponible para su eleccion.
         baraja_cartas_disponibles[seleccion_tipo][seleccion_palo] = false;
 
-    }
-    else
-    {
+    } else {
         // en caso de no estar disponible genera indices
         // hasta toparse con una posicion de carta disponible
-        while (baraja_cartas_disponibles[seleccion_tipo][seleccion_palo] == false)
-        {
+        while (baraja_cartas_disponibles[seleccion_tipo][seleccion_palo] == false){
             seleccion_tipo = rand() % TIPOS_CARTAS;
             seleccion_palo = rand() % PALOS;
         }
 
         // Realizar el intercambio de cartas
 
-        for (int x = 0; x < TIPOS_CARTAS; x++)
-        {
-            for (int y = 0; y < PALOS; y++)
-            {
-                if (temp == baraja_cartas_muestra[x][y])
-                {
+        for (int x = 0; x < TIPOS_CARTAS; x++){
+            for (int y = 0; y < PALOS; y++){
+                if (temp == baraja_cartas_muestra[x][y]){
                     baraja_cartas_disponibles[x][y] = true;
                 }
             }
@@ -927,8 +812,7 @@ void accion_2(string turno, string corral_contrario[], string baraja_cartas_mues
 
 /** accion del dado 3 (intercambiar una carta propia con una del rival)------------------------------------------------------------------------------------------------------------------------*/
 
-void accion_3(string turno, string corral_propio[], string corral_contrario[], bool cartas_bloqueadas_contrario[], bool cartas_bloqueadas_propias[], bool &le_robaron)
-{
+void accion_3(string turno, string corral_propio[], string corral_contrario[], bool cartas_bloqueadas_contrario[], bool cartas_bloqueadas_propias[], bool &le_robaron){
     int seleccion_contrario, seleccion_propio;
     string temp; // variables temporal / auxiliar
 
@@ -945,16 +829,14 @@ void accion_3(string turno, string corral_propio[], string corral_contrario[], b
 
     // muestra los mazos para hacer mas interactivo
     cout << "corral contrario:" << endl;
-    for (int x = 0; x < 5; x++)
-    {
+    for (int x = 0; x < 5; x++){
         cout << "\t" << corral_contrario[x] << " " << endl;
     }
     cout << endl;
 
 
     cout << "corral propio:" << endl;
-    for (int x = 0; x < 5; x++)
-    {
+    for (int x = 0; x < 5; x++){
         cout << "\t" << corral_propio[x] << " " << endl;
     }
     cout << endl;
@@ -969,8 +851,7 @@ void accion_3(string turno, string corral_propio[], string corral_contrario[], b
 
 
     // verifica que la carta en esa seleccion no este bloqueada por su dueño
-    while (cartas_bloqueadas_contrario[seleccion_contrario] == true)
-    {
+    while (cartas_bloqueadas_contrario[seleccion_contrario] == true){
 
         cout << "no se puede seleccionar esta carta, el duenio la bloqueo" << endl;
 
@@ -987,8 +868,7 @@ void accion_3(string turno, string corral_propio[], string corral_contrario[], b
 
     // verifica que la carta en esa seleccion bloqueada por si mismo
     // si lo esta, la desbloquea e intercambia
-    if (cartas_bloqueadas_propias[seleccion_propio] == true)
-    {
+    if (cartas_bloqueadas_propias[seleccion_propio] == true){
 
         cartas_bloqueadas_propias[seleccion_propio] = false;
 
@@ -1005,15 +885,13 @@ void accion_3(string turno, string corral_propio[], string corral_contrario[], b
 
 /** accion del dado 4 (intercambiar las posiciones de cartas propias)------------------------------------------------------------------------------------------------------------------------*/
 
-void accion_4(string turno, string corral_propio[])
-{
+void accion_4(string turno, string corral_propio[]){
     int primera_seleccion, segunda_seleccion;
     string temp; // VARIABLE TEMPORAL / AUXILIAR
     cout << "turno del jugador " << turno << endl << endl;
 
 
-    for (int x = 0; x < 5; x++)
-    {
+    for (int x = 0; x < 5; x++){
         cout << "\t" << corral_propio[x] << " " << endl;
     }
     cout << endl;
@@ -1040,14 +918,12 @@ void accion_4(string turno, string corral_propio[])
 
 /** accion del dado 5 (elegir una carta propia para bloquear)------------------------------------------------------------------------------------------------------------------------*/
 
-void accion_5(string turno, string corral_propio[], bool cartas_bloqueadas[])
-{
+void accion_5(string turno, string corral_propio[], bool cartas_bloqueadas[]) {
     int seleccion;
     cout << "turno del jugador " << turno << endl << endl;
 
 
-    for (int x = 0; x < 5; x++)
-    {
+    for (int x = 0; x < 5; x++){
         cout << "\t" << corral_propio[x] << " " << endl;
     }
     cout << endl;
@@ -1058,8 +934,7 @@ void accion_5(string turno, string corral_propio[], bool cartas_bloqueadas[])
     cout << "(considere que si la carta ya se encuentra bloqueada, se desbloqueara)" << endl;
 
     seleccion = verificador_de_indices();
-    if (cartas_bloqueadas[seleccion] == true)
-    {
+    if (cartas_bloqueadas[seleccion] == true){
         cartas_bloqueadas[seleccion] = false;
     }
 
@@ -1070,8 +945,7 @@ void accion_5(string turno, string corral_propio[], bool cartas_bloqueadas[])
 
 /** accion del dado 6 ------------------------------------------------------------------------------------------------------------------------*/
 
-void accion_6(string turno, string jugador1, string jugador2, string corralJugador_1[], string corralJugador_2[], string baraja_cartas_muestra[TIPOS_CARTAS][PALOS], bool baraja_cartas_disponibles[TIPOS_CARTAS][PALOS], int TIPOS_CARTAS, int PALOS, bool cartas_bloqueadas_jugador1[], bool cartas_bloqueadas_jugador2[], bool &jugador_1_paso_turno, bool &jugador_2_paso_turno, bool &le_robaron_al_1, bool &le_robaron_al_2)
-{
+void accion_6(string turno, string jugador1, string jugador2, string corralJugador_1[], string corralJugador_2[], string baraja_cartas_muestra[TIPOS_CARTAS][PALOS], bool baraja_cartas_disponibles[TIPOS_CARTAS][PALOS], int TIPOS_CARTAS, int PALOS, bool cartas_bloqueadas_jugador1[], bool cartas_bloqueadas_jugador2[], bool &jugador_1_paso_turno, bool &jugador_2_paso_turno, bool &le_robaron_al_1, bool &le_robaron_al_2){
     char eleccion;
 
     cout << "JUGADOR " << turno << " ELIJA UNA OPCION DE LAS DISPONIBLES" << endl << endl;
@@ -1092,8 +966,7 @@ void accion_6(string turno, string jugador1, string jugador2, string corralJugad
 
     cin >> eleccion;
 
-    while(eleccion != '1' && eleccion != '2' && eleccion != '3'&& eleccion != '4'&& eleccion != '5'&& eleccion != '6')
-    {
+    while(eleccion != '1' && eleccion != '2' && eleccion != '3'&& eleccion != '4'&& eleccion != '5'&& eleccion != '6'){
 
         cout << "ERROR, LA ELECCION ES INVALIDA >:C" << endl;
         cout << "VUELVA A INGRESAR SU ELECCION" << endl;
@@ -1104,88 +977,69 @@ void accion_6(string turno, string jugador1, string jugador2, string corralJugad
     }
 
 
-    switch (eleccion)
-    {
+    switch (eleccion){
 
-    case '1':
-        if (turno == jugador1)
-        {
-            accion_1(turno, corralJugador_1, baraja_cartas_muestra, baraja_cartas_disponibles, TIPOS_CARTAS, PALOS, cartas_bloqueadas_jugador1);
-        }
-        else
-        {
-            accion_1(turno, corralJugador_2, baraja_cartas_muestra, baraja_cartas_disponibles, TIPOS_CARTAS, PALOS, cartas_bloqueadas_jugador2);
-        }
-        cout << system("pause");
-        cout << system("cls");
-        break;
+        case '1':
+            if (turno == jugador1){
+                accion_1(turno, corralJugador_1, baraja_cartas_muestra, baraja_cartas_disponibles, TIPOS_CARTAS, PALOS, cartas_bloqueadas_jugador1);
+            } else {
+                accion_1(turno, corralJugador_2, baraja_cartas_muestra, baraja_cartas_disponibles, TIPOS_CARTAS, PALOS, cartas_bloqueadas_jugador2);
+            }
+            cout << system("pause");
+            cout << system("cls");
+            break;
 
-    case '2':
-        if (turno == jugador1)
-        {
-            accion_2(turno, corralJugador_2, baraja_cartas_muestra, baraja_cartas_disponibles, TIPOS_CARTAS, PALOS, cartas_bloqueadas_jugador2);
-        }
-        else
-        {
-            accion_2(turno, corralJugador_1, baraja_cartas_muestra, baraja_cartas_disponibles, TIPOS_CARTAS, PALOS, cartas_bloqueadas_jugador1);
-        }
-        cout << system("pause");
-        cout << system("cls");
-        break;
+        case '2':
+            if (turno == jugador1){
+                accion_2(turno, corralJugador_2, baraja_cartas_muestra, baraja_cartas_disponibles, TIPOS_CARTAS, PALOS, cartas_bloqueadas_jugador2);
+            } else {
+                accion_2(turno, corralJugador_1, baraja_cartas_muestra, baraja_cartas_disponibles, TIPOS_CARTAS, PALOS, cartas_bloqueadas_jugador1);
+            }
+            cout << system("pause");
+            cout << system("cls");
+            break;
 
-    case '3':
-        if (turno == jugador1)
-        {
-            accion_3(turno, corralJugador_1, corralJugador_2, cartas_bloqueadas_jugador2, cartas_bloqueadas_jugador1, le_robaron_al_1);
-        }
-        else
-        {
-            accion_3(turno, corralJugador_2, corralJugador_1, cartas_bloqueadas_jugador1, cartas_bloqueadas_jugador2, le_robaron_al_2);
-        }
-        cout << system("pause");
-        cout << system("cls");
-        break;
+        case '3':
+            if (turno == jugador1){
+                accion_3(turno, corralJugador_1, corralJugador_2, cartas_bloqueadas_jugador2, cartas_bloqueadas_jugador1, le_robaron_al_1);
+            } else {
+                accion_3(turno, corralJugador_2, corralJugador_1, cartas_bloqueadas_jugador1, cartas_bloqueadas_jugador2, le_robaron_al_2);
+            }
+            cout << system("pause");
+            cout << system("cls");
+            break;
 
-    case '4':
-        if (turno == jugador1)
-        {
-            accion_4(turno, corralJugador_1);
-        }
-        else
-        {
-            accion_4(turno, corralJugador_2);
-        }
-        cout << system("pause");
-        cout << system("cls");
-        break;
+        case '4':
+            if (turno == jugador1){
+                accion_4(turno, corralJugador_1);
+            } else {
+                accion_4(turno, corralJugador_2);
+            }
+            cout << system("pause");
+            cout << system("cls");
+            break;
 
-    case '5':
-        if (turno == jugador1)
-        {
-            accion_5(turno, corralJugador_1, cartas_bloqueadas_jugador1);
-        }
-        else
-        {
-            accion_5(turno, corralJugador_2, cartas_bloqueadas_jugador2);
-        }
-        cout << system("pause");
-        cout << system("cls");
-        break;
+        case '5':
+            if (turno == jugador1){
+                accion_5(turno, corralJugador_1, cartas_bloqueadas_jugador1);
+            } else {
+                accion_5(turno, corralJugador_2, cartas_bloqueadas_jugador2);
+            }
+            cout << system("pause");
+            cout << system("cls");
+            break;
 
-    case '6':
-        if (turno == jugador1)
-        {
-            cout << "EL JUGADOR " << turno << " HA ELEGIDO LA OPCION DE PASAR EL TURNO" << endl;
-            jugador_1_paso_turno = true;
-        }
-        else
-        {
-            cout << "EL JUGADOR " << turno << " HA ELEGIDO LA OPCION DE PASAR EL TURNO" << endl;
-            jugador_2_paso_turno = true;
-        }
-        cout << system("pause");
-        cout << system("cls");
-        break;
+        case '6':
+            if (turno == jugador1){
+                cout << "EL JUGADOR " << turno << " HA ELEGIDO LA OPCION DE PASAR EL TURNO" << endl;
+                jugador_1_paso_turno = true;
+            } else {
+                cout << "EL JUGADOR " << turno << " HA ELEGIDO LA OPCION DE PASAR EL TURNO" << endl;
+                jugador_2_paso_turno = true;
+            }
+            cout << system("pause");
+            cout << system("cls");
+            break;
     }
 }
 
@@ -1193,15 +1047,14 @@ void accion_6(string turno, string jugador1, string jugador2, string corralJugad
 /** verificador de indices ------------------------------------------------------------------------------------------------------------------------*/
 
 
-int verificador_de_indices()
-{
-    int indice;
-    char caracter;
+int verificador_de_indices(){
+	int indice;
+	char caracter;
 
     // primeramenete, se ingresa un numero
     // se hace en tipo CHAR, ya que la verificacion
     // se realiza en ASCII
-    cin >> caracter;
+	cin >> caracter;
 
 
     // en este punto realiza una comparacion entre el valor del caracter(char)
@@ -1214,21 +1067,17 @@ int verificador_de_indices()
     // si el numero / caracter es valido, le resta su respectivo numero en ASCII
     // para convertirlo en indice, y lo retorna al flujo original
 
-    if ((int)caracter > 48 && (int)caracter <54)
-    {
+    if ((int)caracter > 48 && (int)caracter <54){
 
         indice = (int)caracter - 49;
         return indice;
 
-    }
-    else
-    {
+    } else {
 
         // en caso de no estar en el rango valido
         // vuelve a pedir el ingreso del numero
         // hasta que este sea valido
-        while ((int)caracter < 49 || (int)caracter >53)
-        {
+        while ((int)caracter < 49 || (int)caracter >53){
 
             cout << "ingrese un numero correcto" << endl;
             cin >> caracter;
@@ -1246,89 +1095,73 @@ int verificador_de_indices()
 /** verificador de orden de cada corral ------------------------------------------------------------------------------------------------------------------------*/
 
 
-bool verificador_de_orden(string jugador_1, string jugador_2, string corraljugador_1[], string corraljugador_2[], int CARTAS_POR_MANO, string &ganador)
-{
+void verificador_de_orden(string jugador_1, string jugador_2, string corraljugador_1[], string corraljugador_2[], int CARTAS_POR_MANO, string &ganador, bool &finPartida){
 
-    const string barajaDiamante[] = {"10 diamante", "j diamante", "Q diamante", "K diamante", "A diamante"};
-    const string barajaCorazon[] = {"10 corazon", "j corazon", "Q corazon", "K corazon", "A corazon"};
-    const string barajaPicas[] = {"10 picas", "j picas", "Q picas", "K picas", "A picas"};
-    const string barajaTrebol[] = {"10 trebol", "j trebol", "Q trebol", "K trebol", "A trebol"};
+    const string barajaDiamante[] = {"10 diamantes", "J diamantes", "Q diamantes", "K diamantes", "A diamantes"};
+    const string barajaCorazon[] = {"10 corazones", "J corazones", "Q corazones", "K corazones", "A corazones"};
+    const string barajaPicas[] = {"10 picas", "J picas", "Q picas", "K picas", "A picas"};
+    const string barajaTrebol[] = {"10 trebol", "J trebol", "Q trebol", "K trebol", "A trebol"};
 
     int ordenJugador_1 = 0;
     int ordenJugador_2 = 0;
 
-    for (int x = 0; x < CARTAS_POR_MANO; x++)
-    {
-        if (corraljugador_1[x] == barajaDiamante[x] || corraljugador_1[x] == barajaCorazon[x]|| corraljugador_1[x] == barajaPicas[x] || corraljugador_1[x] == barajaTrebol[x])
-        {
+    for (int x = 0; x < CARTAS_POR_MANO; x++){
+        if (corraljugador_1[x] == barajaDiamante[x] || corraljugador_1[x] == barajaCorazon[x]|| corraljugador_1[x] == barajaPicas[x] || corraljugador_1[x] == barajaTrebol[x]){
             ordenJugador_1++;
         }
 
-        if (corraljugador_2[x] == barajaDiamante[x] || corraljugador_2[x] == barajaCorazon[x]|| corraljugador_2[x] == barajaPicas[x] || corraljugador_2[x] == barajaTrebol[x])
-        {
+        if (corraljugador_2[x] == barajaDiamante[x] || corraljugador_2[x] == barajaCorazon[x]|| corraljugador_2[x] == barajaPicas[x] || corraljugador_2[x] == barajaTrebol[x]){
             ordenJugador_2++;
         }
     }
 
 
-    if (ordenJugador_1 == 5)
-    {
+    if (ordenJugador_1 == 5){
 
         cout << "FELICIDADES JUGADOR " << jugador_1 << " SU CORRAL ESTA ORDENADO" << endl;
         ganador = jugador_1;
-        return true;
+        cout << system("pause");
+        cout << system("cls");
+        finPartida = true;
 
-    }
-    else if (ordenJugador_2 == 5)
-    {
+    } else if (ordenJugador_2 == 5){
 
         cout << "FELICIDADES JUGADOR " << jugador_2 << " SU CORRAL ESTA ORDENADO" << endl;
         ganador = jugador_2;
-        return true;
+        cout << system("pause");
+        cout << system("cls");
+        finPartida = true;
 
     }
-    else
-    {
-        return false;
-    }
-
 }
 
 
 /** verificador de desorden del corral perdedor ------------------------------------------------------------------------------------------------------------------------*/
 
 
-int verificador_de_desorden(string jugador_1, string jugador_2, string corraljugador_1[], string corraljugador_2[], int CARTAS_POR_MANO, string ganador)
-{
+int verificador_de_desorden(string jugador_1, string jugador_2, string corraljugador_1[], string corraljugador_2[], int CARTAS_POR_MANO, string ganador){
 
-    const string barajaDiamante[5] = {"10 diamante", "j diamante", "Q diamante", "K diamante", "A diamante"};
-    const string barajaCorazon[5] = {"10 corazon", "j corazon", "Q corazon", "K corazon", "A corazon"};
-    const string barajaPicas[5] = {"10 picas", "j picas", "Q picas", "K picas", "A picas"};
-    const string barajaTrebol[5] = {"10 trebol", "j trebol", "Q trebol", "K trebol", "A trebol"};
+    const string barajaDiamante[5] = {"10 diamante", "J diamante", "Q diamante", "K diamante", "A diamante"};
+    const string barajaCorazon[5] = {"10 corazon", "J corazon", "Q corazon", "K corazon", "A corazon"};
+    const string barajaPicas[5] = {"10 picas", "J picas", "Q picas", "K picas", "A picas"};
+    const string barajaTrebol[5] = {"10 trebol", "J trebol", "Q trebol", "K trebol", "A trebol"};
 
     int desordenJugador = 0;
 
 
-    if (ganador == jugador_1)
-    {
+    if (ganador == jugador_1){
 
-        for (int x = 0; x < CARTAS_POR_MANO; x++)
-        {
-            if (corraljugador_2[x] != barajaDiamante[x] || corraljugador_2[x] != barajaCorazon[x]|| corraljugador_2[x] != barajaPicas[x] || corraljugador_2[x] != barajaTrebol[x])
-            {
-                desordenJugador += 5;
+        for (int x = 0; x < CARTAS_POR_MANO; x++){
+            if (corraljugador_2[x] != barajaDiamante[x] && corraljugador_2[x] != barajaCorazon[x] && corraljugador_2[x] != barajaPicas[x] && corraljugador_2[x] != barajaTrebol[x]){
+                desordenJugador ++;
             }
         }
 
-    }
-    else
-    {
+    } else {
 
-        for (int x = 0; x < CARTAS_POR_MANO; x++)
-        {
-            if (corraljugador_1[x] != barajaDiamante[x] || corraljugador_1[x] != barajaCorazon[x]|| corraljugador_1[x] != barajaPicas[x] || corraljugador_1[x] != barajaTrebol[x])
-            {
-                desordenJugador += 5;
+        for (int x = 0; x < CARTAS_POR_MANO; x++){
+            if (corraljugador_1[x] != barajaDiamante[x] && corraljugador_1[x] != barajaCorazon[x] && corraljugador_1[x] != barajaPicas[x] && corraljugador_1[x] != barajaTrebol[x]){
+                desordenJugador ++;
             }
         }
 
@@ -1341,61 +1174,86 @@ int verificador_de_desorden(string jugador_1, string jugador_2, string corraljug
 /** contador de puntos ------------------------------------------------------------------------------------------------------------------------*/
 
 
-int contador_de_puntos(string ganador, string jugador_1, string jugador_2, int dado_1, int dado_2, int cartas_desordenadas, bool jugador_1_paso_turno, bool jugador_2_paso_turno, bool le_robaron_al_1, bool le_robaron_al_2)
-{
+int contador_de_puntos(string ganador, string jugador_1, string jugador_2, int dado_1, int dado_2, int cartas_desordenadas, bool jugador_1_paso_turno, bool jugador_2_paso_turno, bool le_robaron_al_1, bool le_robaron_al_2){
 
     int puntuacionFinal = 15;
 
-    if (ganador == jugador_1)
-    {
 
-        if (dado_1 == 3)
-        {
+    cout << "-------------------------------------------------------------------------------------" << endl;
+
+    cout << "\tHITO \t\t\t\t\t\t\t     " << ganador << endl;
+
+    cout << "-------------------------------------------------------------------------------------" << endl << endl;
+
+    cout << "GANAR LA PARTIDA \t\t\t\t\t\t\t +15 PDV" << endl;
+
+
+    if (ganador == jugador_1){
+
+        if (dado_1 == 3){
             puntuacionFinal += 10;
+            cout << "ROBO LA ULTIMA CARTA AL JUGADOR RIVAL: \t\t\t\t\t +10 PDV" << endl;
+        } else{
+            cout << "ROBO LA ULTIMA CARTA AL JUGADOR RIVAL: \t\t\t\t\t +0 PDV" << endl;
         }
 
-        puntuacionFinal += cartas_desordenadas;
-
+        puntuacionFinal += (cartas_desordenadas * 5);
+        cout << "CARTAS MAL UBICADAS DEL RIVAL x" << cartas_desordenadas << "\t\t\t\t\t+" << (cartas_desordenadas*5) << " PDV" << endl;
 
         // en estos casos las declaraciones se encuentran negadas ya que, las variables se declaran en false
         // por logica (si no te robaron una carta/no pasaste de turno) estan en false
         // si si te robaron / pasaste de turno, se pone en true
         // la pregunta es si no te robaron / pasaste de turno, debe sumar, pero si es asi la variable esta en false
         // entonces, para que de verdadero debe ser negada
-        if (!jugador_1_paso_turno)
-        {
+        if (!jugador_1_paso_turno){
             puntuacionFinal += 10;
+            cout << "SIN PASAR TURNO \t\t\t\t\t\t\t+10 PDV" << endl;
+        } else {
+            cout << "SIN PASAR TURNO \t\t\t\t\t\t\t+0 PDV" << endl;
         }
 
-        if (!le_robaron_al_1)
-        {
+        if (!le_robaron_al_1){
             puntuacionFinal += 5;
+            cout << "SIN HABER SUFRIDO UN ROBO DEL RIVAL: \t\t\t\t\t +5 PDV" << endl;
+        } else {
+            cout << "SIN HABER SUFRIDO UN ROBO DEL RIVAL: \t\t\t\t\t +0 PDV" << endl;
+
         }
 
-    }
-    else
-    {
+    } else {
 
-        if (dado_2 == 3)
-        {
+        if (dado_2 == 3){
             puntuacionFinal += 10;
+            cout << "ROBO LA ULTIMA CARTA AL JUGADOR RIVAL: \t\t\t\t\t +10 PDV" << endl;
+        } else {
+            cout << "ROBO LA ULTIMA CARTA AL JUGADOR RIVAL: \t\t\t\t\t +0 PDV" << endl;
         }
 
         puntuacionFinal += cartas_desordenadas;
+        cout << "CARTAS MAL UBICADAS DEL RIVAL x" << cartas_desordenadas << "\t\t\t\t\t+" << (cartas_desordenadas*5) << " PDV" << endl;
 
-        if (!jugador_2_paso_turno)
-        {
+
+
+        if (!jugador_2_paso_turno){
             puntuacionFinal += 10;
+            cout << "SIN PASAR TURNO \t\t\t\t\t\t\t +10 PDV" << endl;
+        } else {
+            cout << "SIN PASAR TURNO \t\t\t\t\t\t\t +0 PDV" << endl;
         }
 
 
-        if (!le_robaron_al_2)
-        {
-            puntuacionFinal += 5;
+        if (!le_robaron_al_2){
+            puntuacionFinal += 5;;
+            cout << "SIN HABER SUFRIDO UN ROBO DEL RIVAL: \t\t\t\t\t +5 PDV" << endl;
+        } else {
+            cout << "SIN HABER SUFRIDO UN ROBO DEL RIVAL: \t\t\t\t\t +0 PDV" << endl;
+
         }
 
 
     }
+    cout << endl << "-----------------------------------------------------------------------------------" << endl;
+    cout << "TOTAL \t\t\t\t\t\t\t\t\t" << puntuacionFinal << " PDV" << endl;
 
     return puntuacionFinal;
 }
@@ -1404,12 +1262,9 @@ int contador_de_puntos(string ganador, string jugador_1, string jugador_2, int d
 /** asignacion de maxima puntuacion ------------------------------------------------------------------------------------------------------------------------*/
 
 
-void asignacion_maxima_puntuacion(int puntuacionFinal, string ganador, int &maximaPuntuacion, string &maximoGanador)
-{
+void asignacion_maxima_puntuacion(int puntuacionFinal, string ganador, int &maximaPuntuacion, string &maximoGanador){
 
     maximoGanador = ganador;
     maximaPuntuacion = puntuacionFinal;
 
 }
-
-
